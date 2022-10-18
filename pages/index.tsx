@@ -8,27 +8,35 @@ import MoreInfo from "../components/moreInfo";
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let ip: string | undefined;
+  let location: JSON | undefined;
 
   if (
     req.headers["x-forwarded-for"] &&
     typeof req.headers["x-forwarded-for"] === "string"
   ) {
     ip = req.headers["x-forwarded-for"].split(",")[0];
-  } else if (req.headers["x-real-ip"]) {
-    if (req.connection.remoteAddress) ip = req.connection.remoteAddress;
   } else {
     ip = req.connection.remoteAddress;
   }
 
+  if (ip) {
+    const res = await fetch(`http://ipwho.is/${ip}`);
+    location = (await res.json()) as JSON;
+  }
+
   return {
     props: {
-      ip,
+      location,
     },
   };
 };
 
-export default function Home({ ip }: { ip: string | undefined }): JSX.Element {
-  console.log(ip);
+export default function Home({
+  location,
+}: {
+  location: JSON | undefined;
+}): JSX.Element {
+  console.log(location);
 
   return (
     <>
