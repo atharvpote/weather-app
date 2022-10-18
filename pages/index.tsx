@@ -1,10 +1,35 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 
-export default function Home(): JSX.Element {
+// eslint-disable-next-line @typescript-eslint/require-await
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  let ip: string | undefined;
+
+  if (
+    req.headers["x-forwarded-for"] &&
+    typeof req.headers["x-forwarded-for"] === "string"
+  ) {
+    ip = req.headers["x-forwarded-for"].split(",")[0];
+  } else if (req.headers["x-real-ip"]) {
+    if (req.connection.remoteAddress) ip = req.connection.remoteAddress;
+  } else {
+    ip = req.connection.remoteAddress;
+  }
+
+  return {
+    props: {
+      ip,
+    },
+  };
+};
+
+export default function Home({ ip }: { ip: string | undefined }): JSX.Element {
+  console.log(ip);
+
   return (
     <>
       <Head>
