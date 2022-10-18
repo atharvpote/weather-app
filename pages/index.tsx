@@ -7,8 +7,7 @@ import MoreInfo from "../components/moreInfo";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  let ip: string | undefined;
-  let location: JSON | undefined;
+  let ip: string;
 
   if (
     req.headers["x-forwarded-for"] &&
@@ -16,13 +15,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   ) {
     ip = req.headers["x-forwarded-for"].split(",")[0];
   } else {
-    ip = req.connection.remoteAddress;
+    ip = req.connection.remoteAddress as string;
   }
 
-  if (ip) {
-    const res = await fetch(`http://ipwho.is/${ip}`);
-    location = (await res.json()) as JSON;
-  }
+  const res = await fetch(`http://ipwho.is/${ip}`);
+  const location = (await res.json()) as JSON;
 
   return {
     props: {
@@ -31,11 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   };
 };
 
-export default function Home({
-  location,
-}: {
-  location: JSON | undefined;
-}): JSX.Element {
+export default function Home({ location }: { location: JSON }): JSX.Element {
   console.log(location);
 
   return (
