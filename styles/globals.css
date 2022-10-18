@@ -6,6 +6,7 @@
   --medium-dark: #1e213a;
   --white: #e7e7eb;
   --grey: #a09fb1;
+  --light-grey: #6e707a;
 }
 
 @layer base {
@@ -26,5 +27,9 @@
 
   .grey-background {
     background-color: var(--grey);
+  }
+
+  .light-grey-background {
+    background-color: var(--light-grey);
   }
 }
