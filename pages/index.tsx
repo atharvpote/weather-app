@@ -1,22 +1,10 @@
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const ip = req.socket.remoteAddress;
-
-  return {
-    props: { ip },
-  };
-};
-
-export default function Home({ ip }: { ip: string }): JSX.Element {
-  console.log(ip);
-
+export default function Home(): JSX.Element {
   return (
     <>
       <Head>
