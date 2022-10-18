@@ -1,13 +1,15 @@
 import Head from "next/head";
+import CurrentWeather from "../components/currentWeather";
 
 export default function Home(): JSX.Element {
   return (
     <>
       <Head>
         <title>Weather App</title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
       </Head>
       <main>
-        <h1 className="text-3xl text-center font-bold">Weather App</h1>
+        <CurrentWeather />
       </main>
     </>
   );
