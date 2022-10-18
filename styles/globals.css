@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --dark: #100e1d;
   --medium-dark: #1e213a;
   --white: #e7e7eb;
   --grey: #a09fb1;
@@ -17,6 +18,10 @@
 }
 
 @layer utilities {
+  .dark-background {
+    background-color: var(--dark);
+  }
+
   .medium-dark-background {
     background-color: var(--medium-dark);
   }

@@ -1,5 +1,7 @@
 import Head from "next/head";
 import CurrentWeather from "../components/currentWeather";
+import Forecast from "../components/forecast";
+import MoreInfo from "../components/moreInfo";
 
 export default function Home(): JSX.Element {
   return (
@@ -10,6 +12,9 @@ export default function Home(): JSX.Element {
       </Head>
       <main>
         <CurrentWeather />
+        <MoreInfo>
+          <Forecast />
+        </MoreInfo>
       </main>
     </>
   );

@@ -36,9 +36,9 @@ export default function CurrentWeather(): JSX.Element {
                 <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
                 <span>Fri. 5 Jun</span>
               </div>
-              <h3 className="flex items-center justify-center gap-1 font-medium">
+              <h2 className="flex items-center justify-center gap-1 font-medium">
                 <MdLocationOn className="text-2xl" /> Helsinki
-              </h3>
+              </h2>
             </div>
           </div>
         </div>
