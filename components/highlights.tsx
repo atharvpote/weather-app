@@ -49,7 +49,7 @@ type Props = {
 
 function Article({ title, highlight, unit, children }: Props): JSX.Element {
   return (
-    <article className="medium-dark-background flex-grow basis-64 p-8 text-center">
+    <article className="medium-dark-background flex-grow basis-64 p-8 text-center shadow-lg">
       <h3 className="mb-8 font-medium">{title}</h3>
       <p className="mb-12 text-4xl font-medium">
         <span className="text-7xl font-bold">{highlight}</span>

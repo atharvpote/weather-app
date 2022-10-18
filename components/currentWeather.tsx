@@ -4,7 +4,7 @@ import clear from "../public/Clear.png";
 
 export default function CurrentWeather(): JSX.Element {
   return (
-    <section className="medium-dark-background grid min-h-screen md:w-[45rem] md:max-w-[460px] xl:max-h-[1024px] xl:min-h-full">
+    <section className="medium-dark-background grid min-h-screen shadow-lg md:max-w-[460px] md:basis-[45rem] xl:min-h-full">
       <div className="pt-6 pb-24">
         <div className="flex items-center justify-between px-4">
           <button

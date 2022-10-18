@@ -7,7 +7,7 @@ type Props = {
 export default function MoreInfo({ children }: Props): JSX.Element {
   return (
     <div
-      className="dark-background flex w-full flex-col items-center justify-center py-8
+      className="dark-background flex basis-full flex-col items-center justify-center py-8
     "
     >
       <div className="max-w-[788px]">{children}</div>

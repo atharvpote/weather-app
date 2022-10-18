@@ -7,7 +7,7 @@ export default function Forecast(): JSX.Element {
       {new Array(5).fill(1).map((_, index) => (
         <article
           key={index}
-          className="medium-dark-background w-32 px-4 py-4 font-medium"
+          className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
         >
           <h3 className="text-center">Tomorrow</h3>
           <div className="mx-auto mb-6 mt-2 w-14">
