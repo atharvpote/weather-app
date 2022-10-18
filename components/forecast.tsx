@@ -3,7 +3,7 @@ import heavyRain from "../public/HeavyRain.png";
 
 export default function Forecast(): JSX.Element {
   return (
-    <div className=" mx-6 flex flex-wrap justify-center gap-6  pt-8 pb-16">
+    <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {new Array(5).fill(1).map((_, index) => (
         <article
           key={index}
