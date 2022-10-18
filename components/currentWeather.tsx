@@ -7,14 +7,20 @@ export default function CurrentWeather(): JSX.Element {
     <section className="medium-dark-background grid min-h-screen">
       <div className="pt-6 pb-24">
         <div className="flex items-center justify-between px-4">
-          <button className="light-grey-background py-2 px-4 font-medium text-white shadow-md shadow-gray-900">
+          <button
+            className="light-grey-background py-2 px-4 font-medium text-white shadow-md shadow-gray-900"
+            aria-label="Search for places."
+          >
             Search for places
           </button>
-          <span className="light-grey-background inline-block rounded-full p-2 shadow-md shadow-gray-900">
+          <button
+            className="light-grey-background inline-block rounded-full p-2 shadow-md shadow-gray-900"
+            aria-label="Weather report for your location."
+          >
             <MdGpsFixed className="text-2xl" />
-          </span>
+          </button>
         </div>
-        <div className="relative grid h-80 place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
+        <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
             <Image
               src={clear}

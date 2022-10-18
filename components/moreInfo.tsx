@@ -10,7 +10,10 @@ export default function MoreInfo({ children }: Props): JSX.Element {
       {children}
       <p className="grey-text flex items-center justify-center gap-1 text-center text-sm">
         created by{" "}
-        <a href="" className="font-bold underline">
+        <a
+          href="https://github.com/atharvpote/"
+          className="font-bold underline"
+        >
           @atharvpote
         </a>{" "}
         - <GoMarkGithub className="text-sm" /> GitHub

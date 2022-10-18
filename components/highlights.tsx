@@ -15,7 +15,8 @@ export default function Highlights(): JSX.Element {
       <Article title="Humidity" highlight="84" unit="%">
         <div className="white-background relative mx-auto h-2 w-3/4 rounded-2xl">
           <div
-            className={`yellow-background absolute h-full w-[${84}%] rounded-2xl`}
+            style={{ width: `${84}%` }}
+            className={`yellow-background absolute h-full rounded-2xl`}
           ></div>
           <span className="absolute top-0 left-0 -translate-y-full text-xs">
             0
