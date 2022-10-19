@@ -7,7 +7,6 @@ type Props = {
   weather: string;
   temp: number;
   date: string;
-  icon: string;
 };
 
 export default function CurrentWeather({
@@ -15,7 +14,6 @@ export default function CurrentWeather({
   weather,
   temp,
   date,
-  icon,
 }: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
@@ -37,10 +35,8 @@ export default function CurrentWeather({
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
             <Image
-              src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+              src={clear}
               alt=""
-              width={100}
-              height={100}
               layout="responsive"
               className="opacity-100"
             />
