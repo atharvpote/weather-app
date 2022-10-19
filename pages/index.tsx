@@ -37,7 +37,7 @@ export default function Home({ location }: { location: JSON }): JSX.Element {
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
       </Head>
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
-        <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex xl:overflow-hidden xl:rounded-md">
+        <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <CurrentWeather />
           <MoreInfo>
             <Forecast />
