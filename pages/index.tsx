@@ -12,6 +12,7 @@ type OWCurrWeatherRes = {
   weather: [
     {
       main: string;
+      icon: string;
     }
   ];
   main: {
@@ -28,6 +29,11 @@ type OWCurrWeatherRes = {
 };
 
 export type DailyForecast = {
+  weather: [
+    {
+      icon: string;
+    }
+  ];
   main: {
     temp_min: number;
     temp_max: number;
@@ -52,7 +58,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   const reqIpWhoIs = await fetch(`http://ipwho.is/${ip}`);
-
   const resIpWhoIs = (await reqIpWhoIs.json()) as {
     success: boolean;
     latitude: number;
@@ -128,6 +133,7 @@ export default function Home({
                 weather={weather.weather[0].main}
                 temp={weather.main.temp}
                 date={date}
+                icon={weather.weather[0].icon}
               />
               <MoreInfo>
                 <Units />

@@ -2,18 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --dark: #100e1d;
-  --medium-dark: #1e213a;
-  --white: #e7e7eb;
-  --grey: #a09fb1;
-  --light-grey: #6e707a;
-  --medium-grey: #585676;
-  --yellow: #ffec65;
-  --transparent-grey: rgba(255, 255, 255, 0.3);
-}
-
 @layer base {
+  :root {
+    --dark: #100e1d;
+    --medium-dark: #1e213a;
+    --white: #e7e7eb;
+    --grey: #a09fb1;
+    --light-grey: #6e707a;
+    --medium-grey: #585676;
+    --yellow: #ffec65;
+    --transparent-grey: rgba(255, 255, 255, 0.3);
+  }
+
   body {
     font-family: "Raleway", sans-serif;
     color: var(--white);
