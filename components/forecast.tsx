@@ -8,9 +8,8 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  const fiveDayData = forecasts.splice(0, 5);
+  console.log(forecasts.splice(0, 5));
 
-  console.log(fiveDayData);
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {forecasts.map((data, index) => (
