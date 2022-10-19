@@ -8,16 +8,15 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  const fiveDayData: DailyForecast[] = [];
+  const filtered = forecasts.filter(
+    (data) => format(data.dt, "dd") !== format(new Date(), "dd")
+  );
 
-  for (let i = 8; i < forecasts.length; i++) fiveDayData.push(forecasts[i]);
-  // for (let i = 8; i < forecasts.length; i += 8) fiveDayData.push(forecasts[i]);
-
-  console.log(fiveDayData);
+  console.log(filtered);
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {fiveDayData.map((data, index) => {
+      {filtered.map((data, index) => {
         console.log(data.dt, data.dt_txt);
 
         const year = Number.parseInt(data.dt_txt.split("-")[0]);
