@@ -4,6 +4,7 @@ import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
+import Units from "../components/units";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let ip: string;
@@ -40,6 +41,7 @@ export default function Home({ location }: { location: JSON }): JSX.Element {
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <CurrentWeather />
           <MoreInfo>
+            <Units />
             <Forecast />
             <Highlights />
           </MoreInfo>

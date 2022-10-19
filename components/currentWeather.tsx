@@ -32,7 +32,7 @@ export default function CurrentWeather(): JSX.Element {
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            15<span className="grey-text text-5xl">&#176;C</span>
+            15<span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
             <h2 className=" mb-10 text-4xl font-semibold">Shower</h2>
