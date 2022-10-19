@@ -8,6 +8,8 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
+  console.log(forecasts);
+
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {forecasts.map((data, index) => (
