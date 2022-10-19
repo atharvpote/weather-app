@@ -23,7 +23,9 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
             className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
           >
             <h3 className="text-center">
-              {!index ? "Tomorrow" : format(new Date(data.dt), "EEE. d MMM")}
+              {index == 0
+                ? "Tomorrow"
+                : format(new Date(data.dt), "EEE. d MMM")}
             </h3>
             <div className="mx-auto mb-6 mt-2 w-14">
               <Image src={heavyRain} alt="" layout="responsive" />
