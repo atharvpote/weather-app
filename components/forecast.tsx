@@ -35,14 +35,12 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
     mapped.push(tuple);
   }
 
-  console.log(mapped);
-
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {filtered.map((data, index) => {
-        const year = Number.parseInt(data.dt_txt.split("-")[0]);
-        const month = Number.parseInt(data.dt_txt.split("-")[1]);
-        const day = Number.parseInt(data.dt_txt.split("-")[2].split(" ")[0]);
+      {mapped.map((data, index) => {
+        const year = Number.parseInt(data[0].dt_txt.split("-")[0]);
+        const month = Number.parseInt(data[0].dt_txt.split("-")[1]);
+        const day = Number.parseInt(data[0].dt_txt.split("-")[2].split(" ")[0]);
 
         return (
           <article
@@ -56,9 +54,9 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
               <Image src={heavyRain} alt="" layout="responsive" />
             </div>
             <div className="flex justify-between">
-              <span>{Math.floor(data.main.temp_max)}&#176;C</span>
+              <span>{Math.floor(data[1].main.temp_max)}&#176;C</span>
               <span className="grey-text">
-                {Math.floor(data.main.temp_min)}&#176;C
+                {Math.floor(data[0].main.temp_min)}&#176;C
               </span>
             </div>
           </article>
