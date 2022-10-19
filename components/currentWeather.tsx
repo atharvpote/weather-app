@@ -41,7 +41,7 @@ export default function CurrentWeather({
               alt=""
               width={100}
               height={100}
-              layout="fill"
+              layout="responsive"
               className="opacity-100"
             />
           </div>
