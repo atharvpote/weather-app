@@ -54,9 +54,9 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
               <Image src={heavyRain} alt="" layout="responsive" />
             </div>
             <div className="flex justify-between">
-              <span>{Math.floor(data[1].main.temp_max)}&#176;C</span>
+              <span>{Math.floor(data[0].main.temp_max)}&#176;C</span>
               <span className="grey-text">
-                {Math.floor(data[0].main.temp_min)}&#176;C
+                {Math.floor(data[1].main.temp_min)}&#176;C
               </span>
             </div>
           </article>
