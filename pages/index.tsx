@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
 
   const resOWWeatherForecast = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
+    `https://api.openweathermap.org/data/2.5/daily?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
     }&units=metric`
   );
