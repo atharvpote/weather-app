@@ -8,12 +8,18 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  forecasts = forecasts.filter(
-    (data) =>
-      data.dt_txt.split("-")[2].split(" ")[0] !== format(new Date(), "dd") ||
-      data.dt_txt.split("-")[2].split(" ")[0] !==
-        (Number.parseInt(format(new Date(), "dd")) + 4).toString()
-  );
+  for (let i = 0; i < forecasts.length; i++) {
+    if (
+      forecasts[i].dt_txt.split("-")[2].split(" ")[0] ===
+        format(new Date(), "dd") ||
+      forecasts[i].dt_txt.split("-")[2].split(" ")[0] ===
+        (Number.parseInt(format(new Date(), "dd")) + 5).toString()
+    ) {
+      forecasts.splice(i, 1);
+
+      i--;
+    }
+  }
 
   console.log(forecasts);
 
