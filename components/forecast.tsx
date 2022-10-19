@@ -17,6 +17,10 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
       {fiveDayData.map((data, index) => {
         console.log(data.dt, data.dt_txt);
 
+        const year = Number.parseInt(data.dt_txt.split("-")[0]);
+        const month = Number.parseInt(data.dt_txt.split("-")[1]);
+        const day = Number.parseInt(data.dt_txt.split("-")[2].split(" ")[0]);
+
         return (
           <article
             key={index}
@@ -25,7 +29,7 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
             <h3 className="text-center">
               {index == 0
                 ? "Tomorrow"
-                : format(new Date(data.dt), "EEE. d MMM")}
+                : format(new Date(year, month, day), "EEE. d MMM")}
             </h3>
             <div className="mx-auto mb-6 mt-2 w-14">
               <Image src={heavyRain} alt="" layout="responsive" />
