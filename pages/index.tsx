@@ -40,7 +40,7 @@ type OWWeatherForecastRes = {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  let ip: string | undefined;
+  let ip: string;
 
   if (
     req.headers["x-forwarded-for"] &&
@@ -48,45 +48,43 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   ) {
     ip = req.headers["x-forwarded-for"].split(",")[0];
   } else {
-    ip = req.connection.remoteAddress;
+    ip = req.connection.remoteAddress as string;
   }
 
-  if (ip) {
-    const reqIpWhoIs = await fetch(`http://ipwho.is/${ip}`);
+  const reqIpWhoIs = await fetch(`http://ipwho.is/${ip}`);
 
-    const resIpWhoIs = (await reqIpWhoIs.json()) as {
-      success: boolean;
-      latitude: number;
-      longitude: number;
+  const resIpWhoIs = (await reqIpWhoIs.json()) as {
+    success: boolean;
+    latitude: number;
+    longitude: number;
+  };
+
+  if (resIpWhoIs.success) {
+    const latitude = resIpWhoIs.latitude;
+    const longitude = resIpWhoIs.longitude;
+
+    const resOWCurrWeather = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
+        process.env.OW_KEY as string
+      }&units=metric`
+    );
+    const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
+
+    const resOWWeatherForecast = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
+        process.env.OW_KEY as string
+      }&units=metric`
+    );
+    const forecast =
+      (await resOWWeatherForecast.json()) as OWWeatherForecastRes;
+
+    return {
+      props: {
+        weather,
+        forecast,
+        date: format(new Date(), "EEE. d MMM"),
+      },
     };
-
-    if (resIpWhoIs.success) {
-      const latitude = resIpWhoIs.latitude;
-      const longitude = resIpWhoIs.longitude;
-
-      const resOWCurrWeather = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
-          process.env.OW_KEY as string
-        }&units=metric`
-      );
-      const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
-
-      const resOWWeatherForecast = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
-          process.env.OW_KEY as string
-        }&units=metric`
-      );
-      const forecast =
-        (await resOWWeatherForecast.json()) as OWWeatherForecastRes;
-
-      return {
-        props: {
-          weather,
-          forecast,
-          date: format(new Date(), "EEE. d MMM"),
-        },
-      };
-    }
   }
 
   return {
