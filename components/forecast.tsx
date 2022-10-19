@@ -8,17 +8,14 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  const filtered = forecasts.filter(
-    (data) => format(data.dt, "dd") === format(new Date(), "dd")
-  );
-
-  console.log(filtered);
+  forecasts.forEach((data) => {
+    console.log(format(data.dt, "dd"));
+    console.log(format(new Date(), "dd"));
+  });
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {filtered.map((data, index) => {
-        console.log(data.dt, data.dt_txt);
-
+      {forecasts.map((data, index) => {
         const year = Number.parseInt(data.dt_txt.split("-")[0]);
         const month = Number.parseInt(data.dt_txt.split("-")[1]);
         const day = Number.parseInt(data.dt_txt.split("-")[2].split(" ")[0]);
