@@ -73,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const resOW = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
-    }`
+    }&units=metric`
   );
   const weather = (await resOW.json()) as OWRes;
 
@@ -95,7 +95,11 @@ export default function Home({ weather }: { weather: OWRes }): JSX.Element {
       </Head>
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
-          <CurrentWeather />
+          <CurrentWeather
+            city={weather.name}
+            weather={weather.weather[0].description}
+            temp={weather.main.temp}
+          />
           <MoreInfo>
             <Units />
             <Forecast />

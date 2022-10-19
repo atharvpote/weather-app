@@ -2,7 +2,17 @@ import Image from "next/image";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import clear from "../public/Clear.png";
 
-export default function CurrentWeather(): JSX.Element {
+type Props = {
+  city: string;
+  weather: string;
+  temp: number;
+};
+
+export default function CurrentWeather({
+  city,
+  weather,
+  temp,
+}: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
@@ -32,10 +42,11 @@ export default function CurrentWeather(): JSX.Element {
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            15<span className="grey-text text-5xl font-semibold">&#176;C</span>
+            {temp}
+            <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
-            <h2 className=" mb-10 text-4xl font-semibold">Shower</h2>
+            <h2 className=" mb-10 text-4xl font-semibold">{weather}</h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
@@ -43,7 +54,7 @@ export default function CurrentWeather(): JSX.Element {
                 <span>Fri. 5 Jun</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
-                <MdLocationOn className="text-2xl" /> Helsinki
+                <MdLocationOn className="text-2xl" /> {city}
               </h2>
             </div>
           </div>
