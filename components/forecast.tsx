@@ -8,13 +8,12 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  forecasts = forecasts.reverse();
+  forecasts = forecasts.filter(
+    (data) =>
+      data.dt_txt.split("-")[2].split(" ")[0] === format(new Date(), "dd")
+  );
 
-  const filtered: DailyForecast[] = [];
-
-  for (let i = 0; i < 40; i++) filtered.push(forecasts[i]);
-
-  console.log(filtered);
+  console.log(forecasts);
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
@@ -29,9 +28,7 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
             className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
           >
             <h3 className="text-center">
-              {index == 0
-                ? "Tomorrow"
-                : format(new Date(year, month, day), "EEE. d MMM")}
+              {format(new Date(year, month, day), "EEE. d MMM")}
             </h3>
             <div className="mx-auto mb-6 mt-2 w-14">
               <Image src={heavyRain} alt="" layout="responsive" />
