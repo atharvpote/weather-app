@@ -10,7 +10,9 @@ type Props = {
 export default function Forecast({ forecasts }: Props): JSX.Element {
   forecasts = forecasts.filter(
     (data) =>
-      data.dt_txt.split("-")[2].split(" ")[0] === format(new Date(), "dd")
+      data.dt_txt.split("-")[2].split(" ")[0] === format(new Date(), "dd") ||
+      data.dt_txt.split("-")[2].split(" ")[0] ===
+        (Number.parseInt(format(new Date(), "dd")) + 5).toString()
   );
 
   console.log(forecasts);
