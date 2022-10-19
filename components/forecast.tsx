@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import { format } from "date-fns";
-import type { DailyForecast } from "../pages/index";
+import type { DailyForecast } from "../utils/getWeatherData";
 
 type Props = {
   forecasts: DailyForecast[];
