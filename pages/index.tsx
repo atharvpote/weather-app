@@ -57,7 +57,12 @@ export default function Home({
               />
               <MoreInfo>
                 <Units />
-                <Forecast forecasts={forecast.list} />
+                <Forecast
+                  forecasts={forecast.list}
+                  icon={weather.weather[0].main}
+                  desc={weather.weather[0].description}
+                  getIcon={getIcon}
+                />
                 <Highlights
                   windSpeed={weather.wind.speed}
                   humidity={weather.main.humidity}

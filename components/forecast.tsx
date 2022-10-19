@@ -1,13 +1,20 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { format } from "date-fns";
 import type { DailyForecast } from "../pages/index";
-import heavyRain from "../public/HeavyRain.png";
 
 type Props = {
   forecasts: DailyForecast[];
+  icon: string;
+  desc: string;
+  getIcon: (icon: string, desc: string) => StaticImageData;
 };
 
-export default function Forecast({ forecasts }: Props): JSX.Element {
+export default function Forecast({
+  forecasts,
+  icon,
+  desc,
+  getIcon,
+}: Props): JSX.Element {
   for (let i = 0; i < forecasts.length; i++) {
     if (
       forecasts[i].dt_txt.split("-")[2].split(" ")[0] ===
@@ -51,7 +58,7 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
               {format(new Date(year, month, day), "EEE. d MMM")}
             </h3>
             <div className="mx-auto mb-6 mt-2 w-14">
-              <Image src={heavyRain} alt="" layout="responsive" />
+              <Image src={getIcon(icon, desc)} alt="" layout="responsive" />
             </div>
             <div className="flex justify-between">
               <span>{Math.floor(data[0].main.temp_max)}&#176;C</span>
