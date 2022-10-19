@@ -6,6 +6,52 @@ import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
 
+type OWRes = {
+  weather: [
+    {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }
+  ];
+  base: string;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
+    sea_level: number;
+    grnd_level: number;
+  };
+  visibility: number;
+  wind: {
+    speed: number;
+    deg: number;
+    gust: number;
+  };
+  rain: {
+    "1h": number;
+  };
+  clouds: {
+    all: number;
+  };
+  dt: number;
+  sys: {
+    type: number;
+    id: number;
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  timezone: number;
+  id: number;
+  name: string;
+  cod: number;
+};
+
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let ip: string;
 
@@ -18,18 +64,28 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     ip = req.connection.remoteAddress as string;
   }
 
-  const res = await fetch(`http://ipwho.is/${ip}`);
-  const location = (await res.json()) as JSON;
+  const resIpWhoIs = await fetch(`http://ipwho.is/${ip}`);
+  const { latitude, longitude } = (await resIpWhoIs.json()) as {
+    latitude: number;
+    longitude: number;
+  };
+
+  const resOW = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
+      process.env.OW_KEY as string
+    }`
+  );
+  const weather = (await resOW.json()) as OWRes;
 
   return {
     props: {
-      location,
+      weather,
     },
   };
 };
 
-export default function Home({ location }: { location: JSON }): JSX.Element {
-  console.log(location);
+export default function Home({ weather }: { weather: OWRes }): JSX.Element {
+  console.log(weather);
 
   return (
     <>
