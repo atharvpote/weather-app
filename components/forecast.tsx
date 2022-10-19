@@ -10,29 +10,33 @@ type Props = {
 export default function Forecast({ forecasts }: Props): JSX.Element {
   const fiveDayData: DailyForecast[] = [];
 
-  for (let i = 0; i < forecasts.length; i += 8) fiveDayData.push(forecasts[i]);
+  for (let i = 8; i < forecasts.length; i += 8) fiveDayData.push(forecasts[i]);
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {fiveDayData.map((data, index) => (
-        <article
-          key={index}
-          className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
-        >
-          <h3 className="text-center">
-            {!index ? "Tomorrow" : format(data.dt, "EEE. d MMM")}
-          </h3>
-          <div className="mx-auto mb-6 mt-2 w-14">
-            <Image src={heavyRain} alt="" layout="responsive" />
-          </div>
-          <div className="flex justify-between">
-            <span>{Math.floor(data.main.temp_max)}&#176;C</span>
-            <span className="grey-text">
-              {Math.floor(data.main.temp_min)}&#176;C
-            </span>
-          </div>
-        </article>
-      ))}
+      {fiveDayData.map((data, index) => {
+        console.log(data.dt, data.dt_txt);
+
+        return (
+          <article
+            key={index}
+            className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
+          >
+            <h3 className="text-center">
+              {!index ? "Tomorrow" : format(new Date(data.dt), "EEE. d MMM")}
+            </h3>
+            <div className="mx-auto mb-6 mt-2 w-14">
+              <Image src={heavyRain} alt="" layout="responsive" />
+            </div>
+            <div className="flex justify-between">
+              <span>{Math.floor(data.main.temp_max)}&#176;C</span>
+              <span className="grey-text">
+                {Math.floor(data.main.temp_min)}&#176;C
+              </span>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }
