@@ -8,15 +8,9 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  console.log(forecasts);
-
-  const fiveDayData: DailyForecast[] = [];
-
-  for (let i = 9; i < forecasts.length; i + 8) fiveDayData.push(forecasts[i]);
-
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {fiveDayData.map((data, index) => (
+      {forecasts.map((data, index) => (
         <article
           key={index}
           className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
