@@ -134,7 +134,7 @@ type Props = {
 };
 
 export default function Home({ weather, forecast, date }: Props): JSX.Element {
-  console.log(weather);
+  console.log(forecast);
 
   return (
     <>
@@ -152,7 +152,7 @@ export default function Home({ weather, forecast, date }: Props): JSX.Element {
           />
           <MoreInfo>
             <Units />
-            <Forecast forecasts={forecast.list} />
+            {/* <Forecast forecasts={forecast.list} /> */}
             <Highlights
               windSpeed={weather.wind.speed}
               humidity={weather.main.humidity}
