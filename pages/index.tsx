@@ -15,6 +15,7 @@ import sleet from "../public/Sleet.png";
 import lightRain from "../public/LightRain.png";
 import heavyRain from "../public/HeavyRain.png";
 import thunderstorm from "../public/Thunderstorm.png";
+import haze from "../public/Haze.png";
 
 type Props = {
   weather: OWCurrWeatherRes;
@@ -186,7 +187,7 @@ function getIcon(weather: string, description?: string): StaticImageData {
     if (description?.includes("light")) return lightRain;
     else return heavyRain;
   }
-
+  if (weather == "Haze") return haze;
   if (weather == "Drizzle") return heavyRain;
 
   return thunderstorm;
