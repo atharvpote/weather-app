@@ -1,17 +1,83 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import type { StaticImageData } from "next/image";
 import { format } from "date-fns";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
+import clear from "../public/Clear.png";
+import lightCloud from "../public/LightCloud.png";
+import heavyCloud from "../public/HeavyCloud.png";
+import snow from "../public/Snow.png";
+import sleet from "../public/Sleet.png";
+import lightRain from "../public/LightRain.png";
+import heavyRain from "../public/HeavyRain.png";
+import thunderstorm from "../public/Thunderstorm.png";
+
+type Props = {
+  weather: OWCurrWeatherRes;
+  forecast: OWWeatherForecastRes;
+  date: string;
+  error?: true;
+};
+
+export default function Home({
+  weather,
+  forecast,
+  date,
+  error,
+}: Props): JSX.Element {
+  return (
+    <>
+      <Head>
+        <title>Weather App</title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+      </Head>
+      <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
+        <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
+          {error ? (
+            <div className="md:basis-full">
+              <p className="text-center">
+                Something went wrong, please try again later
+              </p>
+            </div>
+          ) : (
+            <>
+              <CurrentWeather
+                city={weather.name}
+                weather={weather.weather[0].main}
+                temp={weather.main.temp}
+                date={date}
+                icon={weather.weather[0].main}
+                desc={weather.weather[0].description}
+                getIcon={getIcon}
+              />
+              <MoreInfo>
+                <Units />
+                <Forecast forecasts={forecast.list} />
+                <Highlights
+                  windSpeed={weather.wind.speed}
+                  humidity={weather.main.humidity}
+                  visibility={weather.visibility}
+                  pressure={weather.main.pressure}
+                />
+              </MoreInfo>
+            </>
+          )}
+        </div>
+      </main>
+    </>
+  );
+}
 
 type OWCurrWeatherRes = {
   message: number | string;
   weather: [
     {
       main: string;
+      description: string;
     }
   ];
   main: {
@@ -28,6 +94,12 @@ type OWCurrWeatherRes = {
 };
 
 export type DailyForecast = {
+  weather: [
+    {
+      main: string;
+      description: string;
+    }
+  ];
   main: {
     temp_min: number;
     temp_max: number;
@@ -96,55 +168,26 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   };
 };
 
-type Props = {
-  weather: OWCurrWeatherRes;
-  forecast: OWWeatherForecastRes;
-  date: string;
-  error?: true;
-};
+function getIcon(weather: string, description?: string): StaticImageData {
+  if (weather == "Clear") return clear;
+  if (weather == "Clouds") {
+    if (
+      description == "few clouds: 11-25%" ||
+      description == "scattered clouds: 25-50%"
+    )
+      return lightCloud;
+    else return heavyCloud;
+  }
+  if (weather == "Snow") {
+    if (description?.includes("shower" || "rain")) return sleet;
+    else return snow;
+  }
+  if (weather == "Rain") {
+    if (description?.includes("light")) return lightRain;
+    else return heavyRain;
+  }
 
-export default function Home({
-  weather,
-  forecast,
-  date,
-  error,
-}: Props): JSX.Element {
-  return (
-    <>
-      <Head>
-        <title>Weather App</title>
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-      </Head>
-      <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
-        <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
-          {error ? (
-            <div className="md:basis-full">
-              <p className="text-center">
-                Something went wrong, please try again later
-              </p>
-            </div>
-          ) : (
-            <>
-              <CurrentWeather
-                city={weather.name}
-                weather={weather.weather[0].main}
-                temp={weather.main.temp}
-                date={date}
-              />
-              <MoreInfo>
-                <Units />
-                <Forecast forecasts={forecast.list} />
-                <Highlights
-                  windSpeed={weather.wind.speed}
-                  humidity={weather.main.humidity}
-                  visibility={weather.visibility}
-                  pressure={weather.main.pressure}
-                />
-              </MoreInfo>
-            </>
-          )}
-        </div>
-      </main>
-    </>
-  );
+  if (weather == "Drizzle") return heavyRain;
+
+  return thunderstorm;
 }

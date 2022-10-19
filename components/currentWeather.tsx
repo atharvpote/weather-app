@@ -1,12 +1,14 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
-import clear from "../public/Clear.png";
 
 type Props = {
   city: string;
   weather: string;
   temp: number;
   date: string;
+  icon: string;
+  desc: string;
+  getIcon: (icon: string, desc: string) => StaticImageData;
 };
 
 export default function CurrentWeather({
@@ -14,6 +16,9 @@ export default function CurrentWeather({
   weather,
   temp,
   date,
+  icon,
+  desc,
+  getIcon,
 }: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
@@ -35,7 +40,7 @@ export default function CurrentWeather({
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
             <Image
-              src={clear}
+              src={getIcon(icon, desc)}
               alt=""
               layout="responsive"
               className="opacity-100"
