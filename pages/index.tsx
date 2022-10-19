@@ -7,7 +7,38 @@ import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
 
-type OWRes = {
+type OWCurrWeatherRes = {
+  weather: [
+    {
+      main: string;
+    }
+  ];
+  main: {
+    temp: number;
+    pressure: number;
+    humidity: number;
+  };
+  visibility: number;
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  name: string;
+};
+
+export type DailyForecast = {
+  dt: number;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    sea_level: number;
+    grnd_level: number;
+    humidity: number;
+    temp_kf: number;
+  };
   weather: [
     {
       id: number;
@@ -16,41 +47,43 @@ type OWRes = {
       icon: string;
     }
   ];
-  base: string;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-    sea_level: number;
-    grnd_level: number;
+  clouds: {
+    all: number;
   };
-  visibility: number;
   wind: {
     speed: number;
     deg: number;
     gust: number;
   };
+  visibility: number;
+  pop: number;
   rain: {
-    "1h": number;
+    "3h": number;
   };
-  clouds: {
-    all: number;
-  };
-  dt: number;
   sys: {
-    type: number;
+    pod: string;
+  };
+  dt_txt: string;
+};
+
+type OWWeatherForecastRes = {
+  cod: string;
+  message: number;
+  cnt: number;
+  list: DailyForecast[];
+  city: {
     id: number;
+    name: string;
+    coord: {
+      lat: number;
+      lon: number;
+    };
     country: string;
+    population: number;
+    timezone: number;
     sunrise: number;
     sunset: number;
   };
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
@@ -71,27 +104,36 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     longitude: number;
   };
 
-  const resOW = await fetch(
+  const resOWCurrWeather = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
     }&units=metric`
   );
-  const weather = (await resOW.json()) as OWRes;
+  const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
+
+  const resOWWeatherForecast = await fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
+      process.env.OW_KEY as string
+    }&units=metric`
+  );
+  const forecast = (await resOWWeatherForecast.json()) as OWWeatherForecastRes;
 
   return {
     props: {
       weather,
+      forecast,
       date: format(new Date(), "EEE. d MMM"),
     },
   };
 };
 
 type Props = {
-  weather: OWRes;
+  weather: OWCurrWeatherRes;
+  forecast: OWWeatherForecastRes;
   date: string;
 };
 
-export default function Home({ weather, date }: Props): JSX.Element {
+export default function Home({ weather, forecast, date }: Props): JSX.Element {
   console.log(weather);
 
   return (
@@ -110,7 +152,7 @@ export default function Home({ weather, date }: Props): JSX.Element {
           />
           <MoreInfo>
             <Units />
-            <Forecast />
+            <Forecast forecasts={forecast.list} />
             <Highlights
               windSpeed={weather.wind.speed}
               humidity={weather.main.humidity}

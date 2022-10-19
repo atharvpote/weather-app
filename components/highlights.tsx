@@ -47,7 +47,7 @@ export default function Highlights({
         </Article>
         <Article
           title="Visibility"
-          highlight={visibility.toFixed(1)}
+          highlight={(visibility / 1000).toFixed(1)}
           unit="km"
         />
         <Article title="Air Pressure" highlight={pressure} unit="mb" />
