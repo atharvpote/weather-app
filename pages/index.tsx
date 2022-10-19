@@ -8,6 +8,7 @@ import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
 
 type OWCurrWeatherRes = {
+  message: number | string;
   weather: [
     {
       main: string;
@@ -27,67 +28,19 @@ type OWCurrWeatherRes = {
 };
 
 export type DailyForecast = {
-  dt: number;
   main: {
-    temp: number;
-    feels_like: number;
     temp_min: number;
     temp_max: number;
-    pressure: number;
-    sea_level: number;
-    grnd_level: number;
-    humidity: number;
-    temp_kf: number;
-  };
-  weather: [
-    {
-      id: number;
-      main: string;
-      description: string;
-      icon: string;
-    }
-  ];
-  clouds: {
-    all: number;
-  };
-  wind: {
-    speed: number;
-    deg: number;
-    gust: number;
-  };
-  visibility: number;
-  pop: number;
-  rain: {
-    "3h": number;
-  };
-  sys: {
-    pod: string;
   };
   dt_txt: string;
 };
 
 type OWWeatherForecastRes = {
-  cod: string;
-  message: number;
-  cnt: number;
   list: DailyForecast[];
-  city: {
-    id: number;
-    name: string;
-    coord: {
-      lat: number;
-      lon: number;
-    };
-    country: string;
-    population: number;
-    timezone: number;
-    sunrise: number;
-    sunset: number;
-  };
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  let ip: string;
+  let ip: string | undefined;
 
   if (
     req.headers["x-forwarded-for"] &&
@@ -95,34 +48,50 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   ) {
     ip = req.headers["x-forwarded-for"].split(",")[0];
   } else {
-    ip = req.connection.remoteAddress as string;
+    ip = req.connection.remoteAddress;
   }
 
-  const resIpWhoIs = await fetch(`http://ipwho.is/${ip}`);
-  const { latitude, longitude } = (await resIpWhoIs.json()) as {
-    latitude: number;
-    longitude: number;
-  };
+  if (ip) {
+    const reqIpWhoIs = await fetch(`http://ipwho.is/${ip}`);
 
-  const resOWCurrWeather = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
-      process.env.OW_KEY as string
-    }&units=metric`
-  );
-  const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
+    const resIpWhoIs = (await reqIpWhoIs.json()) as {
+      success: boolean;
+      latitude: number;
+      longitude: number;
+    };
 
-  const resOWWeatherForecast = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
-      process.env.OW_KEY as string
-    }&units=metric`
-  );
-  const forecast = (await resOWWeatherForecast.json()) as OWWeatherForecastRes;
+    if (resIpWhoIs.success) {
+      const latitude = resIpWhoIs.latitude;
+      const longitude = resIpWhoIs.longitude;
+
+      const resOWCurrWeather = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
+          process.env.OW_KEY as string
+        }&units=metric`
+      );
+      const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
+
+      const resOWWeatherForecast = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
+          process.env.OW_KEY as string
+        }&units=metric`
+      );
+      const forecast =
+        (await resOWWeatherForecast.json()) as OWWeatherForecastRes;
+
+      return {
+        props: {
+          weather,
+          forecast,
+          date: format(new Date(), "EEE. d MMM"),
+        },
+      };
+    }
+  }
 
   return {
     props: {
-      weather,
-      forecast,
-      date: format(new Date(), "EEE. d MMM"),
+      error: true,
     },
   };
 };
@@ -131,9 +100,15 @@ type Props = {
   weather: OWCurrWeatherRes;
   forecast: OWWeatherForecastRes;
   date: string;
+  error?: true;
 };
 
-export default function Home({ weather, forecast, date }: Props): JSX.Element {
+export default function Home({
+  weather,
+  forecast,
+  date,
+  error,
+}: Props): JSX.Element {
   return (
     <>
       <Head>
@@ -142,22 +117,32 @@ export default function Home({ weather, forecast, date }: Props): JSX.Element {
       </Head>
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
-          <CurrentWeather
-            city={weather.name}
-            weather={weather.weather[0].main}
-            temp={weather.main.temp}
-            date={date}
-          />
-          <MoreInfo>
-            <Units />
-            <Forecast forecasts={forecast.list} />
-            <Highlights
-              windSpeed={weather.wind.speed}
-              humidity={weather.main.humidity}
-              visibility={weather.visibility}
-              pressure={weather.main.pressure}
-            />
-          </MoreInfo>
+          {error ? (
+            <div className="md:basis-full">
+              <p className="text-center">
+                Something went wrong, please try again later
+              </p>
+            </div>
+          ) : (
+            <>
+              <CurrentWeather
+                city={weather.name}
+                weather={weather.weather[0].main}
+                temp={weather.main.temp}
+                date={date}
+              />
+              <MoreInfo>
+                <Units />
+                <Forecast forecasts={forecast.list} />
+                <Highlights
+                  windSpeed={weather.wind.speed}
+                  humidity={weather.main.humidity}
+                  visibility={weather.visibility}
+                  pressure={weather.main.pressure}
+                />
+              </MoreInfo>
+            </>
+          )}
         </div>
       </main>
     </>
