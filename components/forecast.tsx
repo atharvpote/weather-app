@@ -21,7 +21,11 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
     }
   }
 
-  console.log(forecasts);
+  forecasts = forecasts.filter(
+    (data) =>
+      data.dt_txt.split(" ")[1] === "06:00:00" ||
+      data.dt_txt.split(" ")[1] === "15:00:00"
+  );
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
