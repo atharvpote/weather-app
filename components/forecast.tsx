@@ -4,17 +4,11 @@ import type { DailyForecast } from "../pages/index";
 
 type Props = {
   forecasts: DailyForecast[];
-  icon: string;
-  desc: string;
+
   getIcon: (icon: string, desc: string) => StaticImageData;
 };
 
-export default function Forecast({
-  forecasts,
-  icon,
-  desc,
-  getIcon,
-}: Props): JSX.Element {
+export default function Forecast({ forecasts, getIcon }: Props): JSX.Element {
   for (let i = 0; i < forecasts.length; i++) {
     if (
       forecasts[i].dt_txt.split("-")[2].split(" ")[0] ===
@@ -58,7 +52,14 @@ export default function Forecast({
               {format(new Date(year, month, day), "EEE. d MMM")}
             </h3>
             <div className="mx-auto mb-6 mt-2 w-14">
-              <Image src={getIcon(icon, desc)} alt="" layout="responsive" />
+              <Image
+                src={getIcon(
+                  data[0].weather[0].main,
+                  data[0].weather[0].description
+                )}
+                alt=""
+                layout="responsive"
+              />
             </div>
             <div className="flex justify-between">
               <span>{Math.floor(data[0].main.temp_max)}&#176;C</span>
