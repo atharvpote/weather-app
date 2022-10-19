@@ -21,15 +21,25 @@ export default function Forecast({ forecasts }: Props): JSX.Element {
     }
   }
 
-  forecasts = forecasts.filter(
+  const filtered = (forecasts = forecasts.filter(
     (data) =>
       data.dt_txt.split(" ")[1] === "06:00:00" ||
       data.dt_txt.split(" ")[1] === "15:00:00"
-  );
+  ));
+
+  const mapped: DailyForecast[][] = [];
+
+  for (let i = 0; i < filtered.length; i += 2) {
+    const tuple = [filtered[i], filtered[i + 1]];
+
+    mapped.push(tuple);
+  }
+
+  console.log(mapped);
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {forecasts.map((data, index) => {
+      {filtered.map((data, index) => {
         const year = Number.parseInt(data.dt_txt.split("-")[0]);
         const month = Number.parseInt(data.dt_txt.split("-")[1]);
         const day = Number.parseInt(data.dt_txt.split("-")[2].split(" ")[0]);
