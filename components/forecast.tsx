@@ -8,9 +8,11 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  const filtered = forecasts.filter(
-    (data) => format(data.dt, "dd") !== format(new Date(), "dd")
-  );
+  const filtered = forecasts.filter((data) => {
+    const day = Number.parseInt(data.dt_txt.split("-")[2].split(" ")[0]);
+
+    format(day, "dd") !== format(new Date(), "dd");
+  });
 
   console.log(filtered);
 
