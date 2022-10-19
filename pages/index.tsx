@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { format } from "date-fns";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
@@ -80,11 +81,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       weather,
+      date: format(new Date(), "EEE. d MMM"),
     },
   };
 };
 
-export default function Home({ weather }: { weather: OWRes }): JSX.Element {
+type Props = {
+  weather: OWRes;
+  date: string;
+};
+
+export default function Home({ weather, date }: Props): JSX.Element {
   console.log(weather);
 
   return (
@@ -97,13 +104,19 @@ export default function Home({ weather }: { weather: OWRes }): JSX.Element {
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <CurrentWeather
             city={weather.name}
-            weather={weather.weather[0].description}
+            weather={weather.weather[0].main}
             temp={weather.main.temp}
+            date={date}
           />
           <MoreInfo>
             <Units />
             <Forecast />
-            <Highlights />
+            <Highlights
+              windSpeed={weather.wind.speed}
+              humidity={weather.main.humidity}
+              visibility={weather.visibility}
+              pressure={weather.main.pressure}
+            />
           </MoreInfo>
         </div>
       </main>

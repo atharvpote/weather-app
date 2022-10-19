@@ -6,12 +6,14 @@ type Props = {
   city: string;
   weather: string;
   temp: number;
+  date: string;
 };
 
 export default function CurrentWeather({
   city,
   weather,
   temp,
+  date,
 }: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
@@ -42,7 +44,7 @@ export default function CurrentWeather({
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            {temp}
+            {Math.floor(temp)}
             <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
@@ -51,7 +53,7 @@ export default function CurrentWeather({
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
                 <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
-                <span>Fri. 5 Jun</span>
+                <span>{date}</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
                 <MdLocationOn className="text-2xl" /> {city}
