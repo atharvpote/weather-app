@@ -8,12 +8,13 @@ type Props = {
 };
 
 export default function Forecast({ forecasts }: Props): JSX.Element {
-  forecasts.forEach((data) => {
-    console.log(
-      format(Number.parseInt(data.dt_txt.split("-")[2].split(" ")[0]), "dd")
-    );
-    console.log(format(new Date(), "dd"));
-  });
+  forecasts = forecasts.reverse();
+
+  const filtered: DailyForecast[] = [];
+
+  for (let i = 0; i < 40; i++) filtered.push(forecasts[i]);
+
+  console.log(filtered);
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
