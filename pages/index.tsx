@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const weather = (await resOWCurrWeather.json()) as OWCurrWeatherRes;
 
   const resOWWeatherForecast = await fetch(
-    `https://api.openweathermap.org/data/2.5/daily?lat=${latitude}&lon=${longitude}&appid=${
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
     }&units=metric`
   );
@@ -134,8 +134,6 @@ type Props = {
 };
 
 export default function Home({ weather, forecast, date }: Props): JSX.Element {
-  console.log(forecast);
-
   return (
     <>
       <Head>
@@ -152,7 +150,7 @@ export default function Home({ weather, forecast, date }: Props): JSX.Element {
           />
           <MoreInfo>
             <Units />
-            {/* <Forecast forecasts={forecast.list} /> */}
+            <Forecast forecasts={forecast.list} />
             <Highlights
               windSpeed={weather.wind.speed}
               humidity={weather.main.humidity}
