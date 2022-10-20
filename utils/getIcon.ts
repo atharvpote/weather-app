@@ -26,5 +26,5 @@ export default function getIcon(weatherID: number): any {
     return dust;
   if (weatherID == 781) return tornado;
   if (weatherID == 800) return clearDay;
-  if (weatherID >= 800 || weatherID < 900) return clouds;
+  if (weatherID > 800 || weatherID < 900) return clouds;
 }

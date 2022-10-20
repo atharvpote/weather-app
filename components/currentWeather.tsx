@@ -6,6 +6,8 @@ import { WeatherData } from "../utils/getWeatherAndForecastData";
 import transparent from "../public/Transparent.png";
 
 export default function CurrentWeather({ weather }: Props): JSX.Element {
+  const id = weather?.weather[0].id;
+
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
@@ -34,10 +36,8 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
               />
             ) : (
               <Image
-                src={
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  !weather ? transparent : getIcon(weather.weather[0].id)
-                }
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                src={!id ? transparent : getIcon(id)}
                 alt=""
                 layout="responsive"
                 className="opacity-100"
