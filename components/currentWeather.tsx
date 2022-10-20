@@ -27,7 +27,7 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
         </div>
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
-            {/* {!weather ? (
+            {!weather ? (
               <Image
                 src={transparent}
                 alt=""
@@ -37,20 +37,12 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
             ) : (
               <Image
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                src={!id ? transparent : getIcon(id)}
+                src={getIcon(weather.weather[0].id)}
                 alt=""
                 layout="responsive"
                 className="opacity-100"
               />
-            )} */}
-            {
-              <Image
-                src={transparent}
-                alt=""
-                layout="responsive"
-                className="opacity-100"
-              />
-            }
+            )}
           </div>
         </div>
         <div className="text-center">
