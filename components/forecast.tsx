@@ -13,9 +13,11 @@ type Props = {
 };
 
 export default function Forecast({
-  forecastData: forecasts,
+  forecastData,
   getIcon,
 }: Props): JSX.Element {
+  console.log(forecastData);
+
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {new Array(4).fill(1).map((_, index) => {
@@ -26,7 +28,7 @@ export default function Forecast({
           >
             <h3 className="text-center">Date</h3>
             <div className="mx-auto mb-6 mt-2 w-14">
-              {!forecasts ? (
+              {!forecastData ? (
                 <Image src={transparent} alt="" />
               ) : (
                 <Image src={getIcon("", "")} alt="" layout="responsive" />
