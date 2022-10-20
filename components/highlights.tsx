@@ -1,23 +1,22 @@
 import { MdNavigation } from "react-icons/md";
+import { CurrentWeatherData } from "../utils/getWeatherData";
 
 type Props = {
-  windSpeed: number;
-  humidity: number;
-  visibility: number;
-  pressure: number;
+  weatherData: CurrentWeatherData | null;
 };
 
 export default function Highlights({
-  windSpeed,
-  humidity,
-  visibility,
-  pressure,
+  weatherData: weather,
 }: Props): JSX.Element {
   return (
     <section className="mx-6">
       <h2 className="mb-8 text-2xl font-bold">{`Today's Highlights`}</h2>
       <div className="mb-8 flex flex-wrap justify-center gap-8">
-        <Article title="Wind status" highlight={windSpeed} unit="m/s">
+        <Article
+          title="Wind status"
+          highlight={!weather ? "-" : weather.wind.speed}
+          unit="m/s"
+        >
           <div className="flex items-center justify-center gap-4">
             <span className="transparent-grey-background flex items-center justify-center rounded-full p-[0.3rem]">
               <MdNavigation className="rotate-[225deg] text-xs" />
@@ -25,10 +24,16 @@ export default function Highlights({
             <span>WSW</span>
           </div>
         </Article>
-        <Article title="Humidity" highlight={humidity} unit="%">
+        <Article
+          title="Humidity"
+          highlight={!weather ? "-" : weather.main.humidity}
+          unit="%"
+        >
           <div className="white-background relative mx-auto h-2 w-3/4 rounded-2xl">
             <div
-              style={{ width: `${humidity}%` }}
+              style={{
+                width: `${!weather ? 0 : weather.main.humidity}%`,
+              }}
               className={`yellow-background absolute h-full rounded-2xl`}
             ></div>
             <span className="absolute top-0 left-0 -translate-y-full text-xs">
@@ -47,10 +52,14 @@ export default function Highlights({
         </Article>
         <Article
           title="Visibility"
-          highlight={(visibility / 1000).toFixed(1)}
+          highlight={!weather ? "-" : (weather.visibility / 1000).toFixed(1)}
           unit="km"
         />
-        <Article title="Air Pressure" highlight={pressure} unit="mb" />
+        <Article
+          title="Air Pressure"
+          highlight={!weather ? "-" : weather.main.pressure}
+          unit="mb"
+        />
       </div>
     </section>
   );

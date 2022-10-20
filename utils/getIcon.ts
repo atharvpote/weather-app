@@ -26,6 +26,7 @@ export default function getIcon(
 
     return heavyCloud;
   }
+
   if (weather == "Snow") {
     if (description?.toLowerCase().includes("heavy snow")) return hail;
 
@@ -33,6 +34,7 @@ export default function getIcon(
 
     return snow;
   }
+
   if (weather == "Rain") {
     if (description?.toLowerCase().includes("shower")) return shower;
 
@@ -40,6 +42,7 @@ export default function getIcon(
 
     return heavyRain;
   }
+
   if (weather == "Haze") return haze;
 
   if (weather == "Drizzle") return heavyRain;

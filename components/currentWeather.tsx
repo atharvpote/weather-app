@@ -1,24 +1,16 @@
 import Image, { StaticImageData } from "next/image";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
+import { CurrentWeatherData } from "../utils/getWeatherData";
+import transparent from "../public/Transparent.png";
 
 type Props = {
-  city: string;
-  weather: string;
-  temp: number;
-  date: string;
-  icon: string;
-  desc: string;
-  getIcon: (icon: string, desc: string) => StaticImageData;
+  weatherData: CurrentWeatherData | null;
+  iconProvider: (icon: string, desc: string) => StaticImageData;
 };
 
 export default function CurrentWeather({
-  city,
-  weather,
-  temp,
-  date,
-  icon,
-  desc,
-  getIcon,
+  weatherData,
+  iconProvider: getIcon,
 }: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
@@ -39,29 +31,44 @@ export default function CurrentWeather({
         </div>
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
-            <Image
-              src={getIcon(icon, desc)}
-              alt=""
-              layout="responsive"
-              className="opacity-100"
-            />
+            {!weatherData ? (
+              <Image
+                src={transparent}
+                alt=""
+                layout="responsive"
+                className="opacity-100"
+              />
+            ) : (
+              <Image
+                src={getIcon(
+                  weatherData.weather[0].main,
+                  weatherData.weather[0].description
+                )}
+                alt=""
+                layout="responsive"
+                className="opacity-100"
+              />
+            )}
           </div>
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            {Math.floor(temp)}
+            {!weatherData ? "-" : Math.floor(weatherData.main.temp)}
             <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
-            <h2 className=" mb-10 text-4xl font-semibold">{weather}</h2>
+            <h2 className=" mb-10 text-4xl font-semibold">
+              {!weatherData ? "-" : weatherData.weather[0].main}
+            </h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
                 <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
-                <span>{date}</span>
+                <span>Date</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
-                <MdLocationOn className="text-2xl" /> {city}
+                <MdLocationOn className="text-2xl" />{" "}
+                {!weatherData ? "-" : weatherData.name}
               </h2>
             </div>
           </div>

@@ -5,14 +5,15 @@ import getCoordinates from "../utils/getCoordinates";
 import getWeatherData from "../utils/getWeatherData";
 import getIcon from "../utils/getIcon";
 import type {
-  OWCurrWeatherRes,
-  OWWeatherForecastRes,
+  CurrentWeatherData,
+  WeatherForecastData,
 } from "../utils/getWeatherData";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
+import { useState } from "react";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let ip: string | undefined;
@@ -26,41 +27,63 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     ip = req.connection.remoteAddress;
   }
 
-  if (ip) {
-    const { success, latitude, longitude } = await getCoordinates(ip);
-    const { weather, forecast } = await getWeatherData(latitude, longitude);
+  if (!ip)
+    return {
+      props: {
+        error: "Could not resolve IP Address",
+      },
+    };
 
-    if (success) {
-      return {
-        props: {
-          weather,
-          forecast,
-          date: format(new Date(), "EEE. d MMM"),
-        },
-      };
-    }
-  }
+  const locationData = await getCoordinates(ip);
+
+  if (!locationData.success)
+    return {
+      props: {
+        error: { message: locationData.message },
+      },
+    };
+
+  const { latitude, longitude } = locationData;
+  const weatherData = await getWeatherData(latitude, longitude);
+
+  if (weatherData.message !== null)
+    return {
+      props: {
+        error: weatherData,
+      },
+    };
+
+  const { weather, forecast } = weatherData;
 
   return {
     props: {
-      error: true,
+      weather,
+      forecast,
+      date: format(new Date(), "EEE. d MMM"),
     },
   };
 };
 
-type Props = {
-  weather: OWCurrWeatherRes;
-  forecast: OWWeatherForecastRes;
-  date: string;
-  error?: true;
-};
+type Props =
+  | {
+      error: null;
+      weather: CurrentWeatherData;
+      forecast: WeatherForecastData;
+      date: string;
+    }
+  | { error: { message: string } };
 
-export default function Home({
-  weather,
-  forecast,
-  date,
-  error,
-}: Props): JSX.Element {
+export default function Home(props: Props): JSX.Element {
+  const [weather, setWeather] = useState<CurrentWeatherData | null>(null);
+  const [forecast, setForecast] = useState<WeatherForecastData | null>(null);
+
+  // if (!props.error) {
+  //   const { weather, forecast } = props;
+
+  //   setWeather(weather);
+  //   setForecast(forecast);
+  // }
+
   return (
     <>
       <Head>
@@ -69,35 +92,14 @@ export default function Home({
       </Head>
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
-          {error ? (
-            <div className="md:basis-full">
-              <p className="text-center">
-                Something went wrong, please try again later
-              </p>
-            </div>
-          ) : (
-            <>
-              <CurrentWeather
-                city={weather.name}
-                weather={weather.weather[0].main}
-                temp={weather.main.temp}
-                date={date}
-                icon={weather.weather[0].main}
-                desc={weather.weather[0].description}
-                getIcon={getIcon}
-              />
-              <MoreInfo>
-                <Units />
-                <Forecast forecasts={forecast.list} getIcon={getIcon} />
-                <Highlights
-                  windSpeed={weather.wind.speed}
-                  humidity={weather.main.humidity}
-                  visibility={weather.visibility}
-                  pressure={weather.main.pressure}
-                />
-              </MoreInfo>
-            </>
-          )}
+          <>
+            <CurrentWeather weatherData={weather} iconProvider={getIcon} />
+            <MoreInfo>
+              <Units />
+              <Forecast forecastData={forecast} getIcon={getIcon} />
+              <Highlights weatherData={weather} />
+            </MoreInfo>
+          </>
         </div>
       </main>
     </>
