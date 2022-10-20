@@ -18,10 +18,17 @@ export default function Forecast({
 }: Props): JSX.Element {
   console.log(forecastData);
 
-  const dates = new Set();
+  const dates = new Map();
   const list = forecastData?.list;
 
-  list?.forEach((data) => dates.add(data.dt_txt.split(" ")[0].split("-")[2]));
+  list?.forEach((data) =>
+    dates.set(data.dt_txt, {
+      minTemp: data.main.temp_min,
+      maxTemp: data.main.temp_max,
+      mainWeather: data.weather[0].main,
+      weatherDesc: data.weather[0].description,
+    })
+  );
 
   console.log(dates);
 
