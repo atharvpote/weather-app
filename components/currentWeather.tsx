@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
-import { CurrentWeatherData } from "../utils/getWeatherData";
+import { WeatherData } from "../utils/getWeatherAndForecastData";
 import transparent from "../public/Transparent.png";
 
 type Props = {
-  weatherData: CurrentWeatherData | null;
+  weatherData: WeatherData | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   iconProvider: (weatherId: number) => any;
 };

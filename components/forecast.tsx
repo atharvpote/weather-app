@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { format } from "date-fns";
-import type { WeatherForecastData } from "../utils/getWeatherData";
+import type { ForecastData } from "../utils/getWeatherAndForecastData";
 import extractForecastData, {
-  ForecastData,
+  ExtractedForecastData,
 } from "../utils/extractForecastData";
 import transparent from "../public/Transparent.png";
 import getIcon from "../utils/getIcon";
 
 type Props = {
-  forecastData: WeatherForecastData | null;
+  forecastData: ForecastData | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   iconProvider: (weatherId: number) => any;
 };
@@ -17,7 +17,7 @@ export default function Forecast({
   forecastData,
   iconProvider,
 }: Props): JSX.Element {
-  let forecast: ForecastData = {};
+  let forecast: ExtractedForecastData = {};
   if (forecastData?.list) forecast = extractForecastData(forecastData?.list);
 
   console.log(forecast);
@@ -30,7 +30,7 @@ export default function Forecast({
 }
 
 function cards(
-  forecast: ForecastData,
+  forecast: ExtractedForecastData,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   iconProvider: (weatherId: number) => any
 ): JSX.Element[] {

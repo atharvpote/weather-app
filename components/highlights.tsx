@@ -1,8 +1,8 @@
 import { MdNavigation } from "react-icons/md";
-import { CurrentWeatherData } from "../utils/getWeatherData";
+import { WeatherData } from "../utils/getWeatherAndForecastData";
 
 type Props = {
-  weatherData: CurrentWeatherData | null;
+  weatherData: WeatherData | null;
 };
 
 export default function Highlights({
