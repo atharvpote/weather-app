@@ -1,22 +1,11 @@
 import { MdNavigation } from "react-icons/md";
-import { WeatherData } from "../utils/getWeatherAndForecastData";
 
-type Props = {
-  weatherData: WeatherData | null;
-};
-
-export default function Highlights({
-  weatherData: weather,
-}: Props): JSX.Element {
+export default function Highlights(): JSX.Element {
   return (
     <section className="mx-6">
       <h2 className="mb-8 text-2xl font-bold">{`Today's Highlights`}</h2>
       <div className="mb-8 flex flex-wrap justify-center gap-8">
-        <Article
-          title="Wind status"
-          highlight={!weather ? "" : weather.wind.speed}
-          unit="m/s"
-        >
+        <Article title="Wind status" highlight="" unit="m/s">
           <div className="flex items-center justify-center gap-4">
             <span className="transparent-grey-background flex items-center justify-center rounded-full p-[0.3rem]">
               <MdNavigation className="rotate-[225deg] text-xs" />
@@ -24,15 +13,11 @@ export default function Highlights({
             <span>WSW</span>
           </div>
         </Article>
-        <Article
-          title="Humidity"
-          highlight={!weather ? "" : weather.main.humidity}
-          unit="%"
-        >
+        <Article title="Humidity" highlight="" unit="%">
           <div className="white-background relative mx-auto h-2 w-3/4 rounded-2xl">
             <div
               style={{
-                width: `${!weather ? 0 : weather.main.humidity}%`,
+                width: 0,
               }}
               className={`yellow-background absolute h-full rounded-2xl`}
             ></div>
@@ -50,16 +35,8 @@ export default function Highlights({
             </span>
           </div>
         </Article>
-        <Article
-          title="Visibility"
-          highlight={!weather ? "" : (weather.visibility / 1000).toFixed(1)}
-          unit="km"
-        />
-        <Article
-          title="Air Pressure"
-          highlight={!weather ? "" : weather.main.pressure}
-          unit="mb"
-        />
+        <Article title="Visibility" highlight="" unit="km" />
+        <Article title="Air Pressure" highlight="" unit="mb" />
       </div>
     </section>
   );

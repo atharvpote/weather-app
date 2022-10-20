@@ -1,20 +1,16 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import getCoordinates from "../utils/getCoordinates";
-import {
-  getWeatherData,
-  getForecastData,
-} from "../utils/getWeatherAndForecastData";
-import type {
-  WeatherData,
-  ForecastData,
-} from "../utils/getWeatherAndForecastData";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
 import { useState } from "react";
+import {
+  getForecastData,
+  getWeatherData,
+} from "../utils/getWeatherAndForecastData";
 
 type Props =
   | {
@@ -25,8 +21,15 @@ type Props =
   | { success: false; error: { message: string } };
 
 export default function Home(props: Props): JSX.Element {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [forecast, setForecast] = useState<ForecastData | null>(null);
+  console.log(props);
+
+  if (props.success) {
+    const weather = getWeatherData(props.latitude, props.longitude);
+    const forecast = getForecastData(props.latitude, props.longitude);
+
+    console.log(weather);
+    console.log(forecast);
+  }
 
   return (
     <>
@@ -37,11 +40,11 @@ export default function Home(props: Props): JSX.Element {
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
-            <CurrentWeather weather={weather} />
+            <CurrentWeather />
             <MoreInfo>
               <Units />
-              <Forecast forecastData={forecast} />
-              <Highlights weatherData={weather} />
+              <Forecast />
+              <Highlights />
             </MoreInfo>
           </>
         </div>

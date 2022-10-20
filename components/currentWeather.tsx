@@ -1,13 +1,10 @@
 import Image from "next/image";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
-import getIcon from "../utils/getIcon";
 import { WeatherData } from "../utils/getWeatherAndForecastData";
 import transparent from "../public/Transparent.png";
 
-export default function CurrentWeather({ weather }: Props): JSX.Element {
-  console.log(weather);
-
+export default function CurrentWeather(): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
@@ -27,33 +24,21 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
         </div>
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
-            {!weather ? (
-              <Image
-                src={transparent}
-                alt=""
-                layout="responsive"
-                className="opacity-100"
-              />
-            ) : (
-              <Image
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                src={getIcon(weather.weather[0].id)}
-                alt=""
-                layout="responsive"
-                className="opacity-100"
-              />
-            )}
+            <Image
+              src={transparent}
+              alt=""
+              layout="responsive"
+              className="opacity-100"
+            />
           </div>
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            {!weather ? "" : Math.floor(weather.main.temp)}
+            Temp
             <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
-            <h2 className=" mb-10 text-4xl font-semibold">
-              {!weather ? "" : weather.weather[0].main}
-            </h2>
+            <h2 className=" mb-10 text-4xl font-semibold">Current</h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
@@ -61,8 +46,7 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
                 <span>{format(new Date(), "EEE. d MMM")}</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
-                <MdLocationOn className="text-2xl" />{" "}
-                {!weather ? "" : weather.name}
+                <MdLocationOn className="text-2xl" /> City
               </h2>
             </div>
           </div>
@@ -73,5 +57,5 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
 }
 
 type Props = {
-  weather: WeatherData | null;
+  weather?: WeatherData;
 };
