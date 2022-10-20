@@ -9,28 +9,31 @@ import getIcon from "../utils/getIcon";
 
 type Props = {
   forecastData: WeatherForecastData | null;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   iconProvider: (weatherId: number) => any;
 };
 
 export default function Forecast({
   forecastData,
-  iconProvider: getIcon,
+  iconProvider,
 }: Props): JSX.Element {
   let forecast: ForecastData = {};
   if (forecastData?.list) forecast = extractForecastData(forecastData?.list);
 
   console.log(forecast);
-
+  iconProvider;
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {cards(forecast)}
+      {cards(forecast, iconProvider)}
     </div>
   );
 }
 
-function cards(forecast: ForecastData): JSX.Element[] {
+function cards(
+  forecast: ForecastData,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  iconProvider: (weatherId: number) => any
+): JSX.Element[] {
   const cards: JSX.Element[] = [];
 
   for (const key in forecast) {
@@ -40,19 +43,21 @@ function cards(forecast: ForecastData): JSX.Element[] {
         className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
       >
         <h3 className="text-center">Date</h3>
-        <div className="mx-auto mb-6 mt-2 w-14">
+        <div className="mx-auto my-4 w-14">
           {
             <Image
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              src={getIcon(forecast[key].weatherId)}
+              src={iconProvider(forecast[key].weatherId)}
               alt=""
               layout="responsive"
             />
           }
         </div>
         <div className="flex justify-between">
-          <span>{forecast[key].maxTemp}&#176;C</span>
-          <span className="grey-text">{forecast[key].minTemp}&#176;C</span>
+          <span>{Math.floor(forecast[key].maxTemp as number)}&#176;C</span>
+          <span className="grey-text">
+            {Math.floor(forecast[key].minTemp as number)}&#176;C
+          </span>
         </div>
       </article>
     );

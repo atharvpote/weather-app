@@ -1,18 +1,17 @@
 import Image from "next/image";
+import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import { CurrentWeatherData } from "../utils/getWeatherData";
 import transparent from "../public/Transparent.png";
 
 type Props = {
   weatherData: CurrentWeatherData | null;
-  date: string | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   iconProvider: (weatherId: number) => any;
 };
 
 export default function CurrentWeather({
   weatherData,
-  date,
   iconProvider: getIcon,
 }: Props): JSX.Element {
   return (
@@ -65,7 +64,7 @@ export default function CurrentWeather({
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
                 <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
-                <span>{date ? date : ""}</span>
+                <span>{format(new Date(), "EEE. d MMM")}</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
                 <MdLocationOn className="text-2xl" />{" "}

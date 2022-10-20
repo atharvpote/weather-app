@@ -1,23 +1,19 @@
 import type { DailyForecastData } from "./getWeatherData";
 
+type WeatherData = {
+  date: string;
+  minTemp: number;
+  maxTemp: number;
+  weatherId: number;
+};
+
 export type ForecastData = {
-  [key: string]: {
-    minTemp: number | null;
-    maxTemp: number | null;
-    weatherId: number;
-  };
+  [key: string]: WeatherData;
 };
 
 export default function extractForecastData(
   list: DailyForecastData[]
 ): ForecastData {
-  type WeatherData = {
-    date: string;
-    minTemp: number;
-    maxTemp: number;
-    weatherId: number;
-  };
-
   const separatedData = new Map<string, WeatherData[]>();
 
   list?.forEach((data) => {
@@ -32,13 +28,7 @@ export default function extractForecastData(
     });
   });
 
-  const forecastData: {
-    [key: string]: {
-      minTemp: number | null;
-      maxTemp: number | null;
-      weatherId: number;
-    };
-  } = {};
+  const forecastData: { [key: string]: WeatherData } = {};
 
   for (const arr of Array.from(separatedData.entries())) {
     const date = arr[0];
@@ -67,8 +57,9 @@ export default function extractForecastData(
     })[0][0];
 
     forecastData[date] = {
-      minTemp,
-      maxTemp,
+      date: date,
+      minTemp: minTemp as number,
+      maxTemp: maxTemp as number,
       weatherId: commonWeatherID,
     };
   }

@@ -20,7 +20,6 @@ type Props =
       success: true;
       weather: CurrentWeatherData;
       forecast: WeatherForecastData;
-      date: string;
     }
   | { success: false; error: { message: string } };
 
@@ -30,9 +29,6 @@ export default function Home(props: Props): JSX.Element {
   );
   const [forecast, setForecast] = useState<WeatherForecastData | null>(
     props.success ? props.forecast : null
-  );
-  const [date, setDate] = useState<string | null>(
-    props.success ? props.date : null
   );
 
   return (
@@ -44,11 +40,7 @@ export default function Home(props: Props): JSX.Element {
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
-            <CurrentWeather
-              weatherData={weather}
-              date={date}
-              iconProvider={getIcon}
-            />
+            <CurrentWeather weatherData={weather} iconProvider={getIcon} />
             <MoreInfo>
               <Units />
               <Forecast forecastData={forecast} iconProvider={getIcon} />
@@ -107,7 +99,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       success: true,
       weather,
       forecast,
-      date: format(new Date(), "EEE. d MMM"),
     },
   };
 };
