@@ -12,8 +12,6 @@ export default function CurrentWeather({
   weatherData,
   iconProvider: getIcon,
 }: Props): JSX.Element {
-  console.log(weatherData);
-
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
