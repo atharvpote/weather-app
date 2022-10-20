@@ -1,9 +1,7 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { format } from "date-fns";
 import getCoordinates from "../utils/getCoordinates";
 import getWeatherData from "../utils/getWeatherData";
-import getIcon from "../utils/getIcon";
 import type {
   CurrentWeatherData,
   WeatherForecastData,
@@ -40,10 +38,10 @@ export default function Home(props: Props): JSX.Element {
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
-            <CurrentWeather weatherData={weather} iconProvider={getIcon} />
+            <CurrentWeather weatherData={weather} />
             <MoreInfo>
               <Units />
-              <Forecast forecastData={forecast} iconProvider={getIcon} />
+              <Forecast forecastData={forecast} />
               <Highlights weatherData={weather} />
             </MoreInfo>
           </>

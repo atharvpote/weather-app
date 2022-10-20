@@ -1,19 +1,15 @@
 import Image from "next/image";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
+import getIcon from "../utils/getIcon";
 import { CurrentWeatherData } from "../utils/getWeatherData";
 import transparent from "../public/Transparent.png";
 
 type Props = {
   weatherData: CurrentWeatherData | null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  iconProvider: (weatherId: number) => any;
 };
 
-export default function CurrentWeather({
-  weatherData,
-  iconProvider: getIcon,
-}: Props): JSX.Element {
+export default function CurrentWeather({ weatherData }: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
