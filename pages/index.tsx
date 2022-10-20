@@ -81,11 +81,6 @@ export default function Home(props: Props): JSX.Element {
   const [weather, setWeather] = useState<CurrentWeatherData | null>(null);
   const [forecast, setForecast] = useState<WeatherForecastData | null>(null);
 
-  if (props.success) {
-    setWeather(props.weather);
-    setForecast(props.forecast);
-  }
-
   return (
     <>
       <Head>
