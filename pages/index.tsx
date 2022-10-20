@@ -51,7 +51,7 @@ export default function Home(props: Props): JSX.Element {
             />
             <MoreInfo>
               <Units />
-              <Forecast forecastData={forecast} getIcon={getIcon} />
+              <Forecast forecastData={forecast} iconProvider={getIcon} />
               <Highlights weatherData={weather} />
             </MoreInfo>
           </>

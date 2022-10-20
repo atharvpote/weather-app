@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import { CurrentWeatherData } from "../utils/getWeatherData";
 import transparent from "../public/Transparent.png";
@@ -6,7 +6,8 @@ import transparent from "../public/Transparent.png";
 type Props = {
   weatherData: CurrentWeatherData | null;
   date: string | null;
-  iconProvider: (icon: string, desc: string) => StaticImageData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  iconProvider: (weatherId: number) => any;
 };
 
 export default function CurrentWeather({
@@ -42,10 +43,8 @@ export default function CurrentWeather({
               />
             ) : (
               <Image
-                src={getIcon(
-                  weatherData.weather[0].main,
-                  weatherData.weather[0].description
-                )}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                src={getIcon(weatherData.weather[0].id)}
                 alt=""
                 layout="responsive"
                 className="opacity-100"

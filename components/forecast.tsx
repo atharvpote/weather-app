@@ -1,20 +1,22 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { format } from "date-fns";
 import type { WeatherForecastData } from "../utils/getWeatherData";
 import extractForecastData, {
   ForecastData,
 } from "../utils/extractForecastData";
 import transparent from "../public/Transparent.png";
+import getIcon from "../utils/getIcon";
 
 type Props = {
   forecastData: WeatherForecastData | null;
 
-  getIcon: (icon: string, desc: string) => StaticImageData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  iconProvider: (weatherId: number) => any;
 };
 
 export default function Forecast({
   forecastData,
-  getIcon,
+  iconProvider: getIcon,
 }: Props): JSX.Element {
   let forecast: ForecastData = {};
   if (forecastData?.list) forecast = extractForecastData(forecastData?.list);
@@ -23,27 +25,38 @@ export default function Forecast({
 
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {new Array(4).fill(1).map((_, index) => {
-        return (
-          <article
-            key={index}
-            className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
-          >
-            <h3 className="text-center">Date</h3>
-            <div className="mx-auto mb-6 mt-2 w-14">
-              {!forecastData ? (
-                <Image src={transparent} alt="" />
-              ) : (
-                <Image src={getIcon("", "")} alt="" layout="responsive" />
-              )}
-            </div>
-            <div className="flex justify-between">
-              <span>Max&#176;C</span>
-              <span className="grey-text">Min&#176;C</span>
-            </div>
-          </article>
-        );
-      })}
+      {cards(forecast)}
     </div>
   );
+}
+
+function cards(forecast: ForecastData): JSX.Element[] {
+  const cards: JSX.Element[] = [];
+
+  for (const key in forecast) {
+    cards.push(
+      <article
+        key={key}
+        className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
+      >
+        <h3 className="text-center">Date</h3>
+        <div className="mx-auto mb-6 mt-2 w-14">
+          {
+            <Image
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              src={getIcon(forecast[key].weatherId)}
+              alt=""
+              layout="responsive"
+            />
+          }
+        </div>
+        <div className="flex justify-between">
+          <span>{forecast[key].maxTemp}&#176;C</span>
+          <span className="grey-text">{forecast[key].minTemp}&#176;C</span>
+        </div>
+      </article>
+    );
+  }
+
+  return cards;
 }

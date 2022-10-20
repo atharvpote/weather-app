@@ -2,6 +2,7 @@ export type CurrentWeatherData = {
   code: number;
   weather: [
     {
+      id: number;
       main: string;
       description: string;
     }
