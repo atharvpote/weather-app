@@ -23,6 +23,7 @@ export type DailyForecastData = {
   dt: number;
   weather: [
     {
+      id: number;
       main: string;
       description: string;
     }
