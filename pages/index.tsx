@@ -19,18 +19,14 @@ import { useState } from "react";
 type Props =
   | {
       success: true;
-      weather: WeatherData;
-      forecast: ForecastData;
+      latitude: number;
+      longitude: number;
     }
   | { success: false; error: { message: string } };
 
 export default function Home(props: Props): JSX.Element {
-  const [weather, setWeather] = useState<WeatherData | null>(
-    props.success ? props.weather : null
-  );
-  const [forecast, setForecast] = useState<ForecastData | null>(
-    props.success ? props.forecast : null
-  );
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [forecast, setForecast] = useState<ForecastData | null>(null);
 
   return (
     <>
@@ -41,7 +37,7 @@ export default function Home(props: Props): JSX.Element {
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
-            {/* <CurrentWeather weather={weather} /> */}
+            <CurrentWeather weather={weather} />
             <MoreInfo>
               <Units />
               <Forecast forecastData={forecast} />
@@ -82,31 +78,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       },
     };
 
-  const { latitude, longitude } = locationData;
-  const weather = await getWeatherData(latitude, longitude);
-  const forecast = await getForecastData(latitude, longitude);
-
-  if (!weather.success)
-    return {
-      props: {
-        success: false,
-        error: weather.error,
-      },
-    };
-
-  if (!forecast.success)
-    return {
-      props: {
-        success: false,
-        error: forecast.error,
-      },
-    };
-
   return {
     props: {
       success: true,
-      weather,
-      forecast,
+      latitude: locationData.latitude,
+      longitude: locationData.longitude,
     },
   };
 };
