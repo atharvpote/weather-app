@@ -9,31 +9,21 @@ import getIcon from "../utils/getIcon";
 
 type Props = {
   forecastData: ForecastData | null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  iconProvider: (weatherId: number) => any;
 };
 
-export default function Forecast({
-  forecastData,
-  iconProvider,
-}: Props): JSX.Element {
+export default function Forecast({ forecastData }: Props): JSX.Element {
   let forecast: ExtractedForecastData = {};
   if (forecastData?.list) forecast = extractForecastData(forecastData?.list);
 
   console.log(forecast);
-  iconProvider;
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {cards(forecast, iconProvider)}
+      {/* {cards(forecast)} */}
     </div>
   );
 }
 
-function cards(
-  forecast: ExtractedForecastData,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  iconProvider: (weatherId: number) => any
-): JSX.Element[] {
+function cards(forecast: ExtractedForecastData): JSX.Element[] {
   const cards: JSX.Element[] = [];
 
   for (const key in forecast) {
@@ -47,7 +37,7 @@ function cards(
           {
             <Image
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              src={iconProvider(forecast[key].weatherId)}
+              src={getIcon(forecast[key].weatherId)}
               alt=""
               layout="responsive"
             />
