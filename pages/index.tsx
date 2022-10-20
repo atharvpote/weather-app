@@ -74,15 +74,12 @@ type Props =
   | { error: { message: string } };
 
 export default function Home(props: Props): JSX.Element {
-  const [weather, setWeather] = useState<CurrentWeatherData | null>(null);
-  const [forecast, setForecast] = useState<WeatherForecastData | null>(null);
-
-  if (!props.error) {
-    const { weather, forecast } = props;
-
-    setWeather(weather);
-    setForecast(forecast);
-  }
+  const [weather, setWeather] = useState<CurrentWeatherData | null>(
+    !props.error ? props.weather : null
+  );
+  const [forecast, setForecast] = useState<WeatherForecastData | null>(
+    !props.error ? props.forecast : null
+  );
 
   return (
     <>
