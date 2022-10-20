@@ -1,4 +1,4 @@
-import type { DailyForecastData } from "../getWeatherData
+import type { DailyForecastData } from "../utils/getWeatherData";
 
 type WeatherData = {
   date: string;
