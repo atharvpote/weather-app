@@ -103,7 +103,7 @@ function extractForecastData(list: DailyForecastData[]): void {
 
     const sorted = Array.from(weatherIdCounter.entries()).sort((a, b) => {
       if (a[1] - b[1] > 0) return -1;
-      if (a[1] - b[1] < 0) return -1;
+      if (a[1] - b[1] < 0) return 1;
       else return 0;
     });
 
