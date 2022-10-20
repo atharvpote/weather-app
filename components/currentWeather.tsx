@@ -2,12 +2,8 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import getIcon from "../utils/getIcon";
-import { CurrentWeatherData } from "../utils/getWeatherData";
+import { WeatherData } from "../utils/getWeatherAndForecastData";
 import transparent from "../public/Transparent.png";
-
-type Props = {
-  weatherData: CurrentWeatherData | null;
-};
 
 export default function CurrentWeather({ weatherData }: Props): JSX.Element {
   return (
@@ -73,3 +69,7 @@ export default function CurrentWeather({ weatherData }: Props): JSX.Element {
     </section>
   );
 }
+
+type Props = {
+  weatherData: WeatherData | null;
+};

@@ -1,19 +1,8 @@
-import type { DailyForecastData } from "./getWeatherData";
-
-type WeatherData = {
-  date: string;
-  minTemp: number;
-  maxTemp: number;
-  weatherId: number;
-};
-
-export type ForecastData = {
-  [key: string]: WeatherData;
-};
+import type { ForecastDataObject } from "./getWeatherAndForecastData";
 
 export default function extractForecastData(
-  list: DailyForecastData[]
-): ForecastData {
+  list: ForecastDataObject[]
+): ExtractedForecastData {
   const separatedData = new Map<string, WeatherData[]>();
 
   list?.forEach((data) => {
@@ -66,3 +55,14 @@ export default function extractForecastData(
 
   return forecastData;
 }
+
+type WeatherData = {
+  date: string;
+  minTemp: number;
+  maxTemp: number;
+  weatherId: number;
+};
+
+export type ExtractedForecastData = {
+  [key: string]: WeatherData;
+};
