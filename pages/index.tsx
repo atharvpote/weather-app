@@ -1,36 +1,12 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import getCoordinates from "../utils/getCoordinates";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
-import { useState } from "react";
-import {
-  getForecastData,
-  getWeatherData,
-} from "../utils/getWeatherAndForecastData";
 
-type Props =
-  | {
-      success: true;
-      latitude: number;
-      longitude: number;
-    }
-  | { success: false; error: { message: string } };
-
-export default function Home(props: Props): JSX.Element {
-  console.log(props);
-
-  if (props.success) {
-    const weather = getWeatherData(props.latitude, props.longitude);
-    const forecast = getForecastData(props.latitude, props.longitude);
-
-    console.log(weather);
-    console.log(forecast);
-  }
-
+export default function Home(): JSX.Element {
   return (
     <>
       <Head>
@@ -53,39 +29,9 @@ export default function Home(props: Props): JSX.Element {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  let ip: string | undefined;
-
-  if (
-    req.headers["x-forwarded-for"] &&
-    typeof req.headers["x-forwarded-for"] === "string"
-  ) {
-    ip = req.headers["x-forwarded-for"].split(",")[0];
-  } else {
-    ip = req.connection.remoteAddress;
-  }
-
-  if (!ip)
-    return {
-      props: {
-        error: { message: "Could not resolve IP Address" },
-      },
-    };
-
-  const locationData = await getCoordinates(ip);
-
-  if (!locationData.success)
-    return {
-      props: {
-        error: { message: locationData.message },
-      },
-    };
-
+// eslint-disable-next-line @typescript-eslint/require-await
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
-    props: {
-      success: true,
-      latitude: locationData.latitude,
-      longitude: locationData.longitude,
-    },
+    props: {},
   };
 };

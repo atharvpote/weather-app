@@ -6,8 +6,16 @@ export default function Forecast(): JSX.Element {
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       <article className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg">
         <h3 className="text-center">Date</h3>
-        <div className="mx-auto my-4 w-14">
-          {<Image src={transparent} alt="" layout="fill" />}
+        <div className="relative mx-auto my-4 w-14">
+          {
+            <Image
+              src={transparent}
+              alt=""
+              layout="intrinsic"
+              height={200}
+              width={200}
+            />
+          }
         </div>
         <div className="flex justify-between">
           <span>31&#176;C</span>

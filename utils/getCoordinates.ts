@@ -9,10 +9,10 @@ type FailedRes = {
   message: string;
 };
 
-export default async function getCoordinates(
-  ip: string
-): Promise<SuccessfulRes | FailedRes> {
-  const req = await fetch(`http://ipwho.is/${ip}`);
+export default async function getCoordinates(): Promise<
+  SuccessfulRes | FailedRes
+> {
+  const req = await fetch("http://ipwho.is/");
   const res = (await req.json()) as SuccessfulRes | FailedRes;
 
   return res;

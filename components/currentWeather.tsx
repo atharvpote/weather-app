@@ -55,7 +55,3 @@ export default function CurrentWeather(): JSX.Element {
     </section>
   );
 }
-
-type Props = {
-  weather?: WeatherData;
-};
