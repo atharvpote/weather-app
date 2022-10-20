@@ -1,5 +1,9 @@
 import { GoMarkGithub } from "react-icons/go";
 
+type Props = {
+  children: React.ReactNode;
+};
+
 export default function MoreInfo({ children }: Props): JSX.Element {
   return (
     <div
@@ -20,7 +24,3 @@ export default function MoreInfo({ children }: Props): JSX.Element {
     </div>
   );
 }
-
-type Props = {
-  children: React.ReactNode;
-};

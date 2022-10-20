@@ -1,5 +1,9 @@
 import { MdNavigation } from "react-icons/md";
-import { WeatherData } from "../utils/getWeatherAndForecastData";
+import { CurrentWeatherData } from "../utils/getWeatherData";
+
+type Props = {
+  weatherData: CurrentWeatherData | null;
+};
 
 export default function Highlights({
   weatherData: weather,
@@ -61,6 +65,13 @@ export default function Highlights({
   );
 }
 
+type ArticleProps = {
+  title: string;
+  highlight: string | number;
+  unit: string;
+  children?: React.ReactNode;
+};
+
 function Article({
   title,
   highlight,
@@ -78,14 +89,3 @@ function Article({
     </article>
   );
 }
-
-type Props = {
-  weatherData: WeatherData | null;
-};
-
-type ArticleProps = {
-  title: string;
-  highlight: string | number;
-  unit: string;
-  children?: React.ReactNode;
-};

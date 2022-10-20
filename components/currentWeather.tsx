@@ -2,7 +2,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import getIcon from "../utils/getIcon";
-import { WeatherData } from "../utils/getWeatherAndForecastData";
+import { CurrentWeatherData } from "../utils/getWeatherData";
 import transparent from "../public/Transparent.png";
 
 export default function CurrentWeather({ weather }: Props): JSX.Element {

@@ -1,14 +1,11 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import getCoordinates from "../utils/getCoordinates";
-import {
-  getWeatherData,
-  getForecastData,
-} from "../utils/getWeatherAndForecastData";
+import getWeatherData from "../utils/getWeatherData";
 import type {
-  WeatherData,
-  ForecastData,
-} from "../utils/getWeatherAndForecastData";
+  CurrentWeatherData,
+  WeatherForecastData,
+} from "../utils/getWeatherData";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
@@ -16,11 +13,19 @@ import MoreInfo from "../components/moreInfo";
 import Units from "../components/units";
 import { useState } from "react";
 
+type Props =
+  | {
+      success: true;
+      weather: CurrentWeatherData;
+      forecast: WeatherForecastData;
+    }
+  | { success: false; error: { message: string } };
+
 export default function Home(props: Props): JSX.Element {
-  const [weather, setWeather] = useState<WeatherData | null>(
+  const [weather, setWeather] = useState<CurrentWeatherData | null>(
     props.success ? props.weather : null
   );
-  const [forecast, setForecast] = useState<ForecastData | null>(
+  const [forecast, setForecast] = useState<WeatherForecastData | null>(
     props.success ? props.forecast : null
   );
 
@@ -75,25 +80,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
 
   const { latitude, longitude } = locationData;
+  const weatherData = await getWeatherData(latitude, longitude);
 
-  const weather = await getWeatherData(latitude, longitude);
-  const forecast = await getForecastData(latitude, longitude);
-
-  if (!weather.success)
+  if (!weatherData.success)
     return {
       props: {
         success: false,
-        error: weather.error,
+        error: weatherData.error,
       },
     };
 
-  if (!forecast.success)
-    return {
-      props: {
-        success: false,
-        error: forecast.error,
-      },
-    };
+  const { weather, forecast } = weatherData;
 
   return {
     props: {
@@ -103,11 +100,3 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     },
   };
 };
-
-type Props =
-  | {
-      success: true;
-      weather: WeatherData;
-      forecast: ForecastData;
-    }
-  | { success: false; error: { message: string } };
