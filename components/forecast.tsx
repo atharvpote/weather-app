@@ -14,7 +14,7 @@ export default function Forecast({ forecastData }: Props): JSX.Element {
   console.log(forecast);
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
-      {cards(forecast)}
+      {/* {cards(forecast)} */}
     </div>
   );
 }
