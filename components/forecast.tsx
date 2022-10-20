@@ -20,6 +20,8 @@ export default function Forecast({
 
   const list = forecastData?.list;
 
+  extractForecastData(list);
+
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {new Array(4).fill(1).map((_, index) => {
