@@ -5,7 +5,7 @@ import getIcon from "../utils/getIcon";
 import { WeatherData } from "../utils/getWeatherAndForecastData";
 import transparent from "../public/Transparent.png";
 
-export default function CurrentWeather({ weatherData }: Props): JSX.Element {
+export default function CurrentWeather({ weather }: Props): JSX.Element {
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
@@ -25,7 +25,7 @@ export default function CurrentWeather({ weatherData }: Props): JSX.Element {
         </div>
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
           <div className="mx-auto w-36">
-            {!weatherData ? (
+            {!weather ? (
               <Image
                 src={transparent}
                 alt=""
@@ -34,8 +34,10 @@ export default function CurrentWeather({ weatherData }: Props): JSX.Element {
               />
             ) : (
               <Image
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                src={getIcon(weatherData.weather[0].id)}
+                src={
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  !weather ? transparent : getIcon(weather.weather[0].id)
+                }
                 alt=""
                 layout="responsive"
                 className="opacity-100"
@@ -45,12 +47,12 @@ export default function CurrentWeather({ weatherData }: Props): JSX.Element {
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            {!weatherData ? "" : Math.floor(weatherData.main.temp)}
+            {!weather ? "" : Math.floor(weather.main.temp)}
             <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
             <h2 className=" mb-10 text-4xl font-semibold">
-              {!weatherData ? "" : weatherData.weather[0].main}
+              {!weather ? "" : weather.weather[0].main}
             </h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
@@ -60,7 +62,7 @@ export default function CurrentWeather({ weatherData }: Props): JSX.Element {
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
                 <MdLocationOn className="text-2xl" />{" "}
-                {!weatherData ? "" : weatherData.name}
+                {!weather ? "" : weather.name}
               </h2>
             </div>
           </div>
@@ -71,5 +73,5 @@ export default function CurrentWeather({ weatherData }: Props): JSX.Element {
 }
 
 type Props = {
-  weatherData: WeatherData | null;
+  weather: WeatherData | null;
 };
