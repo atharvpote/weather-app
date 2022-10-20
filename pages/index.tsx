@@ -78,8 +78,12 @@ type Props =
 export default function Home(props: Props): JSX.Element {
   console.log(props);
 
-  const [weather, setWeather] = useState<CurrentWeatherData | null>(null);
-  const [forecast, setForecast] = useState<WeatherForecastData | null>(null);
+  const [weather, setWeather] = useState<CurrentWeatherData | null>(
+    props.success ? props.weather : null
+  );
+  const [forecast, setForecast] = useState<WeatherForecastData | null>(
+    props.success ? props.forecast : null
+  );
 
   return (
     <>
