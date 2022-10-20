@@ -54,9 +54,9 @@ function cards(
           }
         </div>
         <div className="flex justify-between">
-          <span>{Math.floor(forecast[key].maxTemp as number)}&#176;C</span>
+          <span>{Math.floor(forecast[key].maxTemp)}&#176;C</span>
           <span className="grey-text">
-            {Math.floor(forecast[key].minTemp as number)}&#176;C
+            {Math.floor(forecast[key].minTemp)}&#176;C
           </span>
         </div>
       </article>
