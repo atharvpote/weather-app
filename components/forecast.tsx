@@ -1,18 +1,18 @@
 import Image from "next/image";
 import { format } from "date-fns";
-import type { WeatherForecastData } from "../utils/getWeatherData";
+import type { ForecastData } from "../utils/getWeatherAndForecastData";
 import extractForecastData, {
-  ForecastData,
+  ExtractedForecastData,
 } from "../utils/extractForecastData";
 import transparent from "../public/Transparent.png";
 import getIcon from "../utils/getIcon";
 
 type Props = {
-  forecastData: WeatherForecastData | null;
+  forecastData: ForecastData | null;
 };
 
 export default function Forecast({ forecastData }: Props): JSX.Element {
-  let forecast: ForecastData = {};
+  let forecast: ExtractedForecastData = {};
   if (forecastData?.list) forecast = extractForecastData(forecastData?.list);
 
   console.log(forecast);
@@ -23,7 +23,7 @@ export default function Forecast({ forecastData }: Props): JSX.Element {
   );
 }
 
-function cards(forecast: ForecastData): JSX.Element[] {
+function cards(forecast: ExtractedForecastData): JSX.Element[] {
   const cards: JSX.Element[] = [];
 
   for (const key in forecast) {

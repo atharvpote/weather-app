@@ -1,11 +1,14 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import getCoordinates from "../utils/getCoordinates";
-import getWeatherData from "../utils/getWeatherData";
+import {
+  getWeatherData,
+  getForecastData,
+} from "../utils/getWeatherAndForecastData";
 import type {
-  CurrentWeatherData,
-  WeatherForecastData,
-} from "../utils/getWeatherData";
+  WeatherData,
+  ForecastData,
+} from "../utils/getWeatherAndForecastData";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
@@ -16,16 +19,16 @@ import { useState } from "react";
 type Props =
   | {
       success: true;
-      weather: CurrentWeatherData;
-      forecast: WeatherForecastData;
+      weather: WeatherData;
+      forecast: ForecastData;
     }
   | { success: false; error: { message: string } };
 
 export default function Home(props: Props): JSX.Element {
-  const [weather, setWeather] = useState<CurrentWeatherData | null>(
+  const [weather, setWeather] = useState<WeatherData | null>(
     props.success ? props.weather : null
   );
-  const [forecast, setForecast] = useState<WeatherForecastData | null>(
+  const [forecast, setForecast] = useState<ForecastData | null>(
     props.success ? props.forecast : null
   );
 
@@ -80,17 +83,24 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
 
   const { latitude, longitude } = locationData;
-  const weatherData = await getWeatherData(latitude, longitude);
+  const weather = await getWeatherData(latitude, longitude);
+  const forecast = await getForecastData(latitude, longitude);
 
-  if (!weatherData.success)
+  if (!weather.success)
     return {
       props: {
         success: false,
-        error: weatherData.error,
+        error: weather.error,
       },
     };
 
-  const { weather, forecast } = weatherData;
+  if (!forecast.success)
+    return {
+      props: {
+        success: false,
+        error: forecast.error,
+      },
+    };
 
   return {
     props: {

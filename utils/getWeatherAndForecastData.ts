@@ -1,4 +1,4 @@
-export type CurrentWeatherData = {
+export type WeatherData = {
   code: number;
   weather: [
     {
@@ -20,7 +20,7 @@ export type CurrentWeatherData = {
   name: string;
 };
 
-export type DailyForecastData = {
+export type ForecastDataObject = {
   dt: number;
   weather: [
     {
@@ -36,9 +36,9 @@ export type DailyForecastData = {
   dt_txt: string;
 };
 
-export type WeatherForecastData = {
+export type ForecastData = {
   cod: number;
-  list: DailyForecastData[];
+  list: ForecastDataObject[];
 };
 
 export type FailedWeatherRequest = {
@@ -46,28 +46,28 @@ export type FailedWeatherRequest = {
   message: string;
 };
 
-type WeatherAndForecastData = {
-  success: true;
-  weather: CurrentWeatherData;
-  forecast: WeatherForecastData;
-};
-
 type RequestError = {
   success: false;
   error: FailedWeatherRequest;
 };
 
-export default async function getWeatherData(
+export async function getWeatherData(
   latitude: number,
   longitude: number
-): Promise<WeatherAndForecastData | RequestError> {
+): Promise<
+  | {
+      success: true;
+      weather: WeatherData;
+    }
+  | RequestError
+> {
   const currentWeatherReq = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
     }&units=metric`
   );
   const currentWeatherRes = (await currentWeatherReq.json()) as
-    | CurrentWeatherData
+    | WeatherData
     | FailedWeatherRequest;
 
   if (Object.hasOwn(currentWeatherRes, "message"))
@@ -76,13 +76,29 @@ export default async function getWeatherData(
       error: currentWeatherRes as FailedWeatherRequest,
     };
 
+  return {
+    success: true,
+    weather: currentWeatherRes as WeatherData,
+  };
+}
+
+export async function getForecastData(
+  latitude: number,
+  longitude: number
+): Promise<
+  | {
+      success: true;
+      forecast: ForecastData;
+    }
+  | RequestError
+> {
   const weatherForecastReq = await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
     }&units=metric`
   );
   const weatherForecastRes = (await weatherForecastReq.json()) as
-    | WeatherForecastData
+    | ForecastData
     | FailedWeatherRequest;
 
   if (Object.hasOwn(weatherForecastReq, "message"))
@@ -93,7 +109,6 @@ export default async function getWeatherData(
 
   return {
     success: true,
-    weather: currentWeatherRes as CurrentWeatherData,
-    forecast: weatherForecastRes as WeatherForecastData,
+    forecast: weatherForecastRes as ForecastData,
   };
 }
