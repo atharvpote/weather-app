@@ -6,7 +6,7 @@ import { WeatherData } from "../utils/getWeatherAndForecastData";
 import transparent from "../public/Transparent.png";
 
 export default function CurrentWeather({ weather }: Props): JSX.Element {
-  const id = weather?.weather[0].id;
+  console.log(weather);
 
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
