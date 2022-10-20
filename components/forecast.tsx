@@ -21,7 +21,7 @@ export default function Forecast({
   const dates = new Set();
   const list = forecastData?.list;
 
-  list?.forEach((data) => dates.add(format(data.dt, "dd")));
+  list?.forEach((data) => dates.add(data.dt_txt.split(" ")[0].split("-")[2]));
 
   console.log(dates);
 
