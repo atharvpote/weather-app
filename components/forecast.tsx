@@ -18,6 +18,13 @@ export default function Forecast({
 }: Props): JSX.Element {
   console.log(forecastData);
 
+  const dates = new Set();
+  const list = forecastData?.list;
+
+  list?.forEach((data) => dates.add(format(data.dt, "dd")));
+
+  console.log(dates);
+
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {new Array(4).fill(1).map((_, index) => {

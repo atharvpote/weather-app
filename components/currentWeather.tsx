@@ -5,15 +5,15 @@ import transparent from "../public/Transparent.png";
 
 type Props = {
   weatherData: CurrentWeatherData | null;
+  date: string | null;
   iconProvider: (icon: string, desc: string) => StaticImageData;
 };
 
 export default function CurrentWeather({
   weatherData,
+  date,
   iconProvider: getIcon,
 }: Props): JSX.Element {
-  console.log(weatherData);
-
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
       <div className="pt-6 pb-24">
@@ -55,22 +55,22 @@ export default function CurrentWeather({
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            {!weatherData ? "-" : Math.floor(weatherData.main.temp)}
+            {!weatherData ? "" : Math.floor(weatherData.main.temp)}
             <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
             <h2 className=" mb-10 text-4xl font-semibold">
-              {!weatherData ? "-" : weatherData.weather[0].main}
+              {!weatherData ? "" : weatherData.weather[0].main}
             </h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
                 <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
-                <span>Date</span>
+                <span>{date ? date : ""}</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
                 <MdLocationOn className="text-2xl" />{" "}
-                {!weatherData ? "-" : weatherData.name}
+                {!weatherData ? "" : weatherData.name}
               </h2>
             </div>
           </div>

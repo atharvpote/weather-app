@@ -14,7 +14,7 @@ export default function Highlights({
       <div className="mb-8 flex flex-wrap justify-center gap-8">
         <Article
           title="Wind status"
-          highlight={!weather ? "-" : weather.wind.speed}
+          highlight={!weather ? "" : weather.wind.speed}
           unit="m/s"
         >
           <div className="flex items-center justify-center gap-4">
@@ -26,7 +26,7 @@ export default function Highlights({
         </Article>
         <Article
           title="Humidity"
-          highlight={!weather ? "-" : weather.main.humidity}
+          highlight={!weather ? "" : weather.main.humidity}
           unit="%"
         >
           <div className="white-background relative mx-auto h-2 w-3/4 rounded-2xl">
@@ -52,12 +52,12 @@ export default function Highlights({
         </Article>
         <Article
           title="Visibility"
-          highlight={!weather ? "-" : (weather.visibility / 1000).toFixed(1)}
+          highlight={!weather ? "" : (weather.visibility / 1000).toFixed(1)}
           unit="km"
         />
         <Article
           title="Air Pressure"
-          highlight={!weather ? "-" : weather.main.pressure}
+          highlight={!weather ? "" : weather.main.pressure}
           unit="mb"
         />
       </div>

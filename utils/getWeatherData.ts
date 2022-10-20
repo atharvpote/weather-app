@@ -20,6 +20,7 @@ export type CurrentWeatherData = {
 };
 
 export type DailyForecastData = {
+  dt: number;
   weather: [
     {
       main: string;
