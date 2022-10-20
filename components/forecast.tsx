@@ -77,7 +77,7 @@ function extractForecastData(list: DailyForecastData[]): void {
     [key: string]: {
       minTemp: number | null;
       maxTemp: number | null;
-      weatherIdCounter: Map<number, number>;
+      sorted: [number, number][];
     };
   } = {};
 
@@ -94,17 +94,23 @@ function extractForecastData(list: DailyForecastData[]): void {
       else if (minTemp > values.minTemp) minTemp = values.minTemp;
 
       if (!maxTemp) maxTemp = values.maxTemp;
-      else if (maxTemp > values.maxTemp) maxTemp = values.maxTemp;
+      else if (maxTemp < values.maxTemp) maxTemp = values.maxTemp;
 
       const weatherCount = weatherIdCounter.get(values.weatherId);
       if (!weatherCount) weatherIdCounter.set(values.weatherId, 1);
       else weatherIdCounter.set(values.weatherId, weatherCount + 1);
     }
 
+    const sorted = Array.from(weatherIdCounter.entries()).sort((a, b) => {
+      if (a[1] - b[1] > 0) return -1;
+      if (a[1] - b[1] < 0) return -1;
+      else return 0;
+    });
+
     aggregatedData[date] = {
       minTemp,
       maxTemp,
-      weatherIdCounter,
+      sorted,
     };
   }
 
