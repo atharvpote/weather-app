@@ -73,5 +73,5 @@ export default function CurrentWeather({ weather }: Props): JSX.Element {
 }
 
 type Props = {
-  weather: WeatherData | null;
+  weather: CurrentWeatherData | null;
 };
