@@ -57,6 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
+      error: null,
       weather,
       forecast,
       date: format(new Date(), "EEE. d MMM"),
@@ -74,8 +75,12 @@ type Props =
   | { error: { message: string } };
 
 export default function Home(props: Props): JSX.Element {
-  const [weather, setWeather] = useState<CurrentWeatherData | null>(null);
-  const [forecast, setForecast] = useState<WeatherForecastData | null>(null);
+  const [weather, setWeather] = useState<CurrentWeatherData | null>(
+    !props.error ? props.weather : null
+  );
+  const [forecast, setForecast] = useState<WeatherForecastData | null>(
+    !props.error ? props.forecast : null
+  );
 
   return (
     <>
