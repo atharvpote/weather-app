@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (!ip)
     return {
       props: {
-        error: "Could not resolve IP Address",
+        error: { message: "Could not resolve IP Address" },
       },
     };
 
@@ -46,10 +46,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { latitude, longitude } = locationData;
   const weatherData = await getWeatherData(latitude, longitude);
 
-  if (weatherData.message !== null)
+  if (!weatherData.success)
     return {
       props: {
-        error: weatherData,
+        success: false,
+        error: weatherData.error,
       },
     };
 
@@ -57,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      error: null,
+      success: true,
       weather,
       forecast,
       date: format(new Date(), "EEE. d MMM"),
@@ -67,22 +68,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 type Props =
   | {
-      error: null;
+      success: true;
       weather: CurrentWeatherData;
       forecast: WeatherForecastData;
       date: string;
     }
-  | { error: { message: string } };
+  | { success: false; error: { message: string } };
 
 export default function Home(props: Props): JSX.Element {
   console.log(props);
 
-  const [weather, setWeather] = useState<CurrentWeatherData | null>(
-    !props.error ? props.weather : null
-  );
-  const [forecast, setForecast] = useState<WeatherForecastData | null>(
-    !props.error ? props.forecast : null
-  );
+  const [weather, setWeather] = useState<CurrentWeatherData | null>(null);
+  const [forecast, setForecast] = useState<WeatherForecastData | null>(null);
 
   return (
     <>

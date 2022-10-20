@@ -1,6 +1,5 @@
 export type CurrentWeatherData = {
   code: number;
-  message: null;
   weather: [
     {
       main: string;
@@ -36,25 +35,29 @@ export type DailyForecastData = {
 
 export type WeatherForecastData = {
   cod: number;
-  message: null;
   list: DailyForecastData[];
 };
 
-type FailedWeatherRequest = {
+export type FailedWeatherRequest = {
   cod: number;
   message: string;
 };
 
 type WeatherAndForecastData = {
-  message: null;
+  success: true;
   weather: CurrentWeatherData;
   forecast: WeatherForecastData;
+};
+
+type RequestError = {
+  success: false;
+  error: FailedWeatherRequest;
 };
 
 export default async function getWeatherData(
   latitude: number,
   longitude: number
-): Promise<WeatherAndForecastData | FailedWeatherRequest> {
+): Promise<WeatherAndForecastData | RequestError> {
   const currentWeatherReq = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
       process.env.OW_KEY as string
@@ -64,7 +67,11 @@ export default async function getWeatherData(
     | CurrentWeatherData
     | FailedWeatherRequest;
 
-  if (currentWeatherRes.message !== null) return currentWeatherRes;
+  if (Object.hasOwn(currentWeatherRes, "message"))
+    return {
+      success: false,
+      error: currentWeatherRes as FailedWeatherRequest,
+    };
 
   const weatherForecastReq = await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
@@ -75,11 +82,15 @@ export default async function getWeatherData(
     | WeatherForecastData
     | FailedWeatherRequest;
 
-  if (weatherForecastRes.message !== null) return weatherForecastRes;
+  if (Object.hasOwn(weatherForecastReq, "message"))
+    return {
+      success: false,
+      error: weatherForecastRes as FailedWeatherRequest,
+    };
 
   return {
-    message: null,
-    weather: currentWeatherRes,
-    forecast: weatherForecastRes,
+    success: true,
+    weather: currentWeatherRes as CurrentWeatherData,
+    forecast: weatherForecastRes as WeatherForecastData,
   };
 }
