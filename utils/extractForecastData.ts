@@ -1,15 +1,4 @@
-import type { ForecastDataObject } from "./getWeatherAndForecastData";
-
-type WeatherData = {
-  date: string;
-  minTemp: number;
-  maxTemp: number;
-  weatherId: number;
-};
-
-export type ExtractedForecastData = {
-  [key: string]: WeatherData;
-};
+import type { ForecastDataObject } from "./getWeatherForecastData";
 
 export default function extractForecastData(
   list: ForecastDataObject[]
@@ -33,6 +22,7 @@ export default function extractForecastData(
   for (const arr of Array.from(separatedData.entries())) {
     const date = arr[0];
     const weatherData = arr[1];
+
     const IdCounter = new Map<number, number>();
 
     let minTemp: number | null = null;
@@ -46,6 +36,7 @@ export default function extractForecastData(
       else if (maxTemp < dataPoint.maxTemp) maxTemp = dataPoint.maxTemp;
 
       const weatherCount = IdCounter.get(dataPoint.weatherId);
+
       if (!weatherCount) IdCounter.set(dataPoint.weatherId, 1);
       else IdCounter.set(dataPoint.weatherId, weatherCount + 1);
     }
@@ -66,3 +57,14 @@ export default function extractForecastData(
 
   return forecastData;
 }
+
+export type ExtractedForecastData = {
+  [key: string]: WeatherData;
+};
+
+type WeatherData = {
+  date: string;
+  minTemp: number;
+  maxTemp: number;
+  weatherId: number;
+};
