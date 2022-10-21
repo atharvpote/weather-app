@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
@@ -28,10 +27,3 @@ export default function Home(): JSX.Element {
     </>
   );
 }
-
-// eslint-disable-next-line @typescript-eslint/require-await
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: {},
-  };
-};

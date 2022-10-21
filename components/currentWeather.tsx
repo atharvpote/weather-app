@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
-import { WeatherData } from "../utils/getWeatherAndForecastData";
-import transparent from "../public/Transparent.png";
 
 export default function CurrentWeather(): JSX.Element {
   return (
@@ -23,22 +21,23 @@ export default function CurrentWeather(): JSX.Element {
           </button>
         </div>
         <div className="relative mx-auto grid h-80 max-w-[588px] place-content-center after:absolute after:top-0 after:h-full after:w-full after:bg-[url('../public/Cloud-background.png')] after:bg-cover after:bg-center after:opacity-10">
-          <div className="mx-auto w-36">
+          <div className="mx-auto">
             <Image
-              src={transparent}
+              src="http://openweathermap.org/img/wn/10d@4x.png"
               alt=""
-              layout="responsive"
+              width={200}
+              height={200}
               className="opacity-100"
             />
           </div>
         </div>
         <div className="text-center">
           <h1 className="mb-6 text-9xl font-medium">
-            Temp
+            23
             <span className="grey-text text-5xl font-semibold">&#176;C</span>
           </h1>
           <div className="grey-text">
-            <h2 className=" mb-10 text-4xl font-semibold">Current</h2>
+            <h2 className=" mb-10 text-4xl font-semibold">Shower</h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
                 <span>Today</span>
@@ -46,7 +45,7 @@ export default function CurrentWeather(): JSX.Element {
                 <span>{format(new Date(), "EEE. d MMM")}</span>
               </div>
               <h2 className="flex items-center justify-center gap-1 font-semibold">
-                <MdLocationOn className="text-2xl" /> City
+                <MdLocationOn className="text-2xl" /> Yavatmal
               </h2>
             </div>
           </div>
