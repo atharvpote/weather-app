@@ -15,7 +15,7 @@ export default function Home(): JSX.Element {
   });
 
   useEffect(() => {
-    fetch("http://ipwho.is/")
+    fetch("https://ipwho.is/")
       .then((res) => res.json())
       .then((data: Location | { success: false }) => {
         if (data.success)
