@@ -13,11 +13,9 @@ export function useWeatherData(
     fetch(arg).then((res) => res.json());
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data, error } = useSWR(key, fetcher);
+  const { data } = useSWR(key, fetcher);
 
-  if (error) return error as FailedReq | undefined;
-
-  return data as WeatherData | undefined;
+  return data as WeatherData | FailedReq | undefined;
 }
 
 export function useForecastData(
@@ -33,11 +31,9 @@ export function useForecastData(
     fetch(arg).then((res) => res.json());
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data, error } = useSWR(key, fetcher);
+  const { data } = useSWR(key, fetcher);
 
-  if (error) return error as FailedReq | undefined;
-
-  return data as ForecastDataList | undefined;
+  return data as ForecastDataList | FailedReq | undefined;
 }
 
 type WeatherData = {
