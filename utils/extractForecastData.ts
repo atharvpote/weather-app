@@ -1,7 +1,7 @@
-import type { ForecastDataObject } from "./getWeatherForecastData";
+import type { ForecastData } from "./useWeatherForecastData";
 
 export default function extractForecastData(
-  list: ForecastDataObject[]
+  list: ForecastData[]
 ): ExtractedForecastData {
   const separatedData = new Map<string, WeatherData[]>();
 

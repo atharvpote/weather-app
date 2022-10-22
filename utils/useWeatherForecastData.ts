@@ -1,11 +1,10 @@
 import useSWR from "swr";
 
-export default function useFetchedData(
-  type: "weather" | "forecast",
+export function useWeatherData(
   longitude: number,
   latitude: number
-): SuccessWeatherDataRes | SuccessForecastDataListRes | ErrorRes | undefined {
-  const key = `https://api.openweathermap.org/data/2.5/${type}?lat=${latitude}&lon=${longitude}&appid=${
+): WeatherData | FailedReq | undefined {
+  const key = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
     process.env.NEXT_PUBLIC_OWM_KEY as string
   }&units=metric`;
 
@@ -16,35 +15,30 @@ export default function useFetchedData(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data, error } = useSWR(key, fetcher);
 
-  if (error)
-    return {
-      success: false,
-      data: error as Error,
-    } as ErrorRes | undefined;
+  if (error) return error as FailedReq | undefined;
 
-  return {
-    success: true,
-    type,
-    data: data as WeatherData | ForecastDataList,
-  } as SuccessWeatherDataRes | SuccessForecastDataListRes | undefined;
+  return data as WeatherData | undefined;
 }
 
-type SuccessWeatherDataRes = {
-  success: true;
-  type: "weather";
-  data: WeatherData;
-};
+export function useForecastData(
+  longitude: number,
+  latitude: number
+): ForecastDataList | FailedReq | undefined {
+  const key = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${
+    process.env.NEXT_PUBLIC_OWM_KEY as string
+  }&units=metric`;
 
-type SuccessForecastDataListRes = {
-  success: true;
-  type: "forecast";
-  data: ForecastDataList;
-};
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const fetcher = (arg: RequestInfo | URL) =>
+    fetch(arg).then((res) => res.json());
 
-type ErrorRes = {
-  success: false;
-  data: Error;
-};
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { data, error } = useSWR(key, fetcher);
+
+  if (error) return error as FailedReq | undefined;
+
+  return data as ForecastDataList | undefined;
+}
 
 type WeatherData = {
   cod: 200;
@@ -73,7 +67,7 @@ type ForecastDataList = {
   list: ForecastData[];
 };
 
-type ForecastData = {
+export type ForecastData = {
   dt: number;
   weather: [
     {
@@ -89,7 +83,7 @@ type ForecastData = {
   dt_txt: string;
 };
 
-type Error = {
+type FailedReq = {
   cod: number | string;
   message: string;
 };
