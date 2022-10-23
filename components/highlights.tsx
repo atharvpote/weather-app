@@ -1,16 +1,18 @@
 import { MdNavigation } from "react-icons/md";
-import { Loading, WeatherLoaded } from "../pages";
+import useLocation from "../utils/useLocation";
+import useWeather from "../utils/useWeather";
 
-export default function Highlights({ weather }: Props): JSX.Element {
+export default function Highlights(): JSX.Element {
+  const location = useLocation();
+  const weather = useWeather(location?.latitude, location?.longitude);
+
   return (
     <section className="mx-6">
       <h2 className="mb-8 text-2xl font-bold">{`Today's Highlights`}</h2>
       <div className="mb-8 flex flex-wrap justify-center gap-8">
         <Article
           title="Wind status"
-          highlight={
-            !weather.loading ? Math.round(weather.data.wind.speed) : "..."
-          }
+          highlight={weather ? Math.round(weather.wind.speed) : "..."}
           unit="m/s"
         >
           <div className="flex items-center justify-center gap-4">
@@ -18,7 +20,7 @@ export default function Highlights({ weather }: Props): JSX.Element {
               <MdNavigation
                 className="text-xs"
                 style={{
-                  rotate: `${!weather.loading ? weather.data.wind.deg : 0}deg`,
+                  rotate: `${weather ? weather.wind.deg : 0}deg`,
                 }}
               />
             </span>
@@ -27,17 +29,13 @@ export default function Highlights({ weather }: Props): JSX.Element {
         </Article>
         <Article
           title="Humidity"
-          highlight={
-            !weather.loading ? Math.round(weather.data.main.humidity) : "..."
-          }
+          highlight={weather ? Math.round(weather.main.humidity) : "..."}
           unit="%"
         >
           <div className="white-background relative mx-auto h-2 w-3/4 rounded-2xl">
             <div
               style={{
-                width: `${
-                  !weather.loading ? Math.round(weather.data.main.humidity) : 0
-                }%`,
+                width: `${weather ? Math.round(weather.main.humidity) : 0}%`,
               }}
               className={`yellow-background absolute h-full rounded-2xl`}
             ></div>
@@ -57,18 +55,12 @@ export default function Highlights({ weather }: Props): JSX.Element {
         </Article>
         <Article
           title="Visibility"
-          highlight={
-            !weather.loading
-              ? Math.round(weather.data.visibility / 1000)
-              : "..."
-          }
+          highlight={weather ? Math.round(weather.visibility / 1000) : "..."}
           unit="km"
         />
         <Article
           title="Air Pressure"
-          highlight={
-            !weather.loading ? Math.round(weather.data.main.pressure) : "..."
-          }
+          highlight={weather ? Math.round(weather.main.pressure) : "..."}
           unit="mb"
         />
       </div>
@@ -93,10 +85,6 @@ function Article({
     </article>
   );
 }
-
-type Props = {
-  weather: WeatherLoaded | Loading;
-};
 
 type ArticleProps = {
   title: string;
