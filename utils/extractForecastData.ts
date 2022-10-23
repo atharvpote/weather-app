@@ -1,63 +1,72 @@
-import { OWSuccessfulResponse, WeatherData } from "../utils/useForecast";
+import { WeatherData } from "./useForecast";
 
-export default function extractForecastData(
-  forecast: OWSuccessfulResponse
-): WeatherData[] {
-  const groupedByDate = new Map<string, WeatherData[]>();
+export default function extractForecastData(list: WeatherData[]): {
+  [key: string]: Extracted;
+} {
+  const grouped = groupByDate(list);
 
-  forecast.list.forEach((data) => {
-    if (!groupedByDate.has(data.dt_txt.split(" ")[0]))
-      groupedByDate.set(data.dt_txt.split(" ")[0], []);
+  const merged: { [key: string]: Extracted } = {};
+  for (const key in grouped) merged[key] = mergeData(grouped[key]);
 
-    groupedByDate.get(data.dt_txt.split(" ")[0])?.push(data);
+  return merged;
+}
+
+function groupByDate(list: WeatherData[]): {
+  [key: string]: WeatherData[];
+} {
+  const grouped: { [key: string]: WeatherData[] } = {};
+
+  list.forEach((data) => {
+    const key = data.dt_txt.split(" ")[0];
+
+    if (!grouped[key]) grouped[key] = [];
+
+    grouped[key].push(data);
   });
 
-  const forecastData: { [key: string]: WeatherData } = {};
+  return grouped;
+}
 
-  for (const arr of Array.from(groupedByDate.entries())) {
-    const date = arr[0];
-    const data = arr[1];
-    const counter = new Map<string, { count: number; desc: string }>();
+type Extracted = {
+  min: number | null;
+  max: number | null;
+  icon: string;
+  description: string;
+};
 
-    let minTemp: number | null = null;
-    let maxTemp: number | null = null;
+function mergeData(list: WeatherData[]): Extracted {
+  let min: number | null = null;
+  let max: number | null = null;
 
-    for (const entry of data) {
-      if (!minTemp) minTemp = entry.main.temp_min;
-      else if (minTemp > entry.main.temp_min) minTemp = entry.main.temp_min;
+  const iconCount: { [key: string]: { count: number; description: string } } =
+    {};
 
-      if (!maxTemp) maxTemp = entry.main.temp_max;
-      else if (maxTemp < entry.main.temp_max) maxTemp = entry.main.temp_max;
+  for (const value of list) {
+    const minTemp = value.main.temp_min;
+    const maxTemp = value.main.temp_max;
+    const icon = value.weather[0].icon;
+    const description = value.weather[0].description;
 
-      const currentCount = counter.get(entry.weather[0].icon)?.count;
+    if (!min) min = minTemp;
+    else if (min > minTemp) min = minTemp;
 
-      if (!currentCount)
-        counter.set(entry.weather[0].icon, {
-          count: 1,
-          desc: entry.weather[0].description,
-        });
-      else
-        counter.set(entry.weather[0].icon, {
-          count: currentCount + 1,
-          desc: entry.weather[0].description,
-        });
-    }
+    if (!max) max = maxTemp;
+    else if (max < maxTemp) max = maxTemp;
 
-    const commonIcon = Array.from(counter.entries()).sort((a, b) => {
-      if (a[1].count - b[1].count > 0) return -1;
-      if (a[1].count - b[1].count < 0) return 1;
-      else return 0;
-    })[1];
+    if (!iconCount[icon])
+      iconCount[icon] = { count: 1, description: description };
 
-    forecastData[date] = {
-      main: {
-        temp_min: minTemp as number,
-        temp_max: maxTemp as number,
-      },
-      dt_txt: date,
-      weather: [{ icon: commonIcon[0], description: commonIcon[1].desc }],
-    };
+    iconCount[icon].count = iconCount[icon].count + 1;
   }
 
-  return Object.values(forecastData);
+  const sorted = Object.entries(iconCount).sort((a, b) => {
+    if (a[1].count - b[1].count > 0) return -1;
+    else if (a[1].count - b[1].count < 0) return 1;
+    else return 0;
+  });
+
+  const icon = sorted[0][0].substring(0, sorted[0][0].length - 1);
+  const description = sorted[0][1].description;
+
+  return { min, max, icon, description };
 }

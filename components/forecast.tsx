@@ -24,7 +24,7 @@ export default function Forecast({
   return (
     <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
       {forecast
-        ? extractForecastData(forecast).map((data, i) => {
+        ? Object.entries(extractForecastData(forecast.list)).map((data, i) => {
             if (i !== 0)
               return (
                 <article
@@ -34,22 +34,24 @@ export default function Forecast({
                   <h3 className="text-center">
                     {i === 1
                       ? "Tomorrow"
-                      : format(new Date(data.dt_txt), "EEE. d MMM")}
+                      : format(new Date(data[0]), "EEE. d MMM")}
                   </h3>
                   <div className="relative mx-auto my-4">
                     {
                       <Image
-                        src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
-                        alt=""
+                        src={`http://openweathermap.org/img/wn/${data[1].icon}d@2x.png`}
+                        alt={data[1].description}
                         height={100}
                         width={100}
                       />
                     }
                   </div>
                   <div className="flex justify-between">
-                    <span>{Math.round(data.main.temp_max)}&#176;C</span>
+                    <span>
+                      {data[1].max ? Math.round(data[1].max) : null}&#176;C
+                    </span>
                     <span className="grey-text">
-                      {Math.round(data.main.temp_min)}&#176;C
+                      {data[1].min ? Math.round(data[1].min) : null}&#176;C
                     </span>
                   </div>
                 </article>

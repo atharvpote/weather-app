@@ -30,7 +30,7 @@ export default function useForecast(
           arg.latitude
         }&lon=${arg.longitude}&appid=${
           process.env.NEXT_PUBLIC_OWM_KEY as string
-        }&units=metric`
+        }&units=metric&exclude=current,minutely,hourly,alerts`
       : null,
     fetcher
   );
