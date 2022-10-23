@@ -12,19 +12,19 @@ export default function Home(): JSX.Element {
   const [coords, setCoords] = useState<Coords>(undefined);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (res) => {
-        setCoords({
-          latitude: res.coords.latitude,
-          longitude: res.coords.longitude,
-        });
-        setAuto(false);
-      },
-      () => {
-        setCoords({ latitude: undefined, longitude: undefined });
-        setAuto(true);
-      }
-    );
+    navigator.permissions
+      .query({ name: "geolocation" })
+      .then((result) => {
+        if (result.state === "granted")
+          navigator.geolocation.getCurrentPosition((res) => {
+            setCoords({
+              latitude: res.coords.latitude,
+              longitude: res.coords.longitude,
+            });
+            setAuto(false);
+          });
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
