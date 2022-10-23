@@ -1,10 +1,23 @@
 import { MdNavigation } from "react-icons/md";
 import useLocation from "../utils/useLocation";
-import useWeather from "../utils/useWeather";
+import useWeather, { Coords } from "../utils/useWeather";
 
-export default function Highlights(): JSX.Element {
+export default function Highlights({
+  auto,
+  coords,
+}: {
+  auto: boolean;
+  coords: Coords;
+}): JSX.Element {
   const location = useLocation();
-  const weather = useWeather(location?.latitude, location?.longitude);
+  const weather = useWeather(
+    auto
+      ? {
+          latitude: location?.latitude,
+          longitude: location?.longitude,
+        }
+      : coords
+  );
 
   return (
     <section className="mx-6">

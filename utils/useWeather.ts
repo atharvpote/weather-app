@@ -1,12 +1,13 @@
 import useSWR, { Fetcher } from "swr";
 
 export default function useWeather(
-  latitude: number | undefined,
-  longitude: number | undefined
+  arg: Coords
 ): OWSuccessfulResponse | undefined {
   const { data } = useSWR<OWSuccessfulResponse>(
-    longitude && latitude
-      ? `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
+    arg && arg.latitude && arg.longitude
+      ? `https://api.openweathermap.org/data/2.5/weather?lat=${
+          arg.latitude
+        }&lon=${arg.longitude}&appid=${
           process.env.NEXT_PUBLIC_OWM_KEY as string
         }&units=metric`
       : null,
@@ -31,6 +32,13 @@ const fetcher: Fetcher<OWSuccessfulResponse> = async (
 
   return data as OWSuccessfulResponse;
 };
+
+export type Coords =
+  | {
+      latitude: number | undefined;
+      longitude: number | undefined;
+    }
+  | undefined;
 
 export type OWSuccessfulResponse = {
   weather: [

@@ -1,12 +1,25 @@
 import Image from "next/image";
+import { Dispatch } from "react";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import useLocation from "../utils/useLocation";
-import useWeather from "../utils/useWeather";
+import useWeather, { Coords } from "../utils/useWeather";
 
-export default function CurrentWeather(): JSX.Element {
+export default function CurrentWeather({
+  auto,
+  setAuto,
+  coords,
+  setCoords,
+}: Props): JSX.Element {
   const location = useLocation();
-  const weather = useWeather(location?.latitude, location?.longitude);
+  const weather = useWeather(
+    auto
+      ? {
+          latitude: location?.latitude,
+          longitude: location?.longitude,
+        }
+      : coords
+  );
 
   return (
     <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
@@ -21,6 +34,21 @@ export default function CurrentWeather(): JSX.Element {
           <button
             className="light-grey-background inline-block rounded-full p-2 shadow-md shadow-gray-900"
             aria-label="Weather report for your location."
+            onClick={(): void => {
+              navigator.geolocation.getCurrentPosition(
+                (res) => {
+                  setCoords({
+                    latitude: res.coords.latitude,
+                    longitude: res.coords.longitude,
+                  });
+                  setAuto(false);
+                },
+                () => {
+                  setCoords({ latitude: undefined, longitude: undefined });
+                  setAuto(true);
+                }
+              );
+            }}
           >
             <MdGpsFixed className="text-2xl" />
           </button>
@@ -68,3 +96,10 @@ export default function CurrentWeather(): JSX.Element {
     </section>
   );
 }
+
+type Props = {
+  auto: boolean;
+  setAuto: Dispatch<boolean>;
+  coords: Coords;
+  setCoords: Dispatch<Coords>;
+};
