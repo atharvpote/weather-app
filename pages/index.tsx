@@ -16,6 +16,12 @@ export default function Home(): JSX.Element {
       <Head>
         <title>Weather App</title>
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <link
+          rel="preload"
+          href="https://ipwho.is/"
+          as="fetch"
+          crossOrigin="anonymous"
+        ></link>
       </Head>
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
