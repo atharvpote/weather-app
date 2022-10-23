@@ -1,11 +1,11 @@
 import useSWR, { Fetcher } from "swr";
 
-export default function useWeather(
+export default function useForecast(
   arg: Coords
 ): OWSuccessfulResponse | undefined {
   const { data } = useSWR<OWSuccessfulResponse>(
     arg && arg.latitude && arg.longitude
-      ? `https://api.openweathermap.org/data/2.5/weather?lat=${
+      ? `https://api.openweathermap.org/data/2.5/forecast?lat=${
           arg.latitude
         }&lon=${arg.longitude}&appid=${
           process.env.NEXT_PUBLIC_OWM_KEY as string
@@ -40,28 +40,24 @@ export type Coords =
     }
   | undefined;
 
-type OWSuccessfulResponse = {
-  weather: [
-    {
-      main: string;
-      icon: string;
-    }
-  ];
+export type OWSuccessfulResponse = {
+  list: WeatherData[];
+  cod: "200";
+  message: number;
+};
+
+export type WeatherData = {
   main: {
-    temp: number;
     temp_min: number;
     temp_max: number;
-    pressure: number;
-    humidity: number;
   };
-  visibility: number;
-  wind: {
-    speed: number;
-    deg: number;
-  };
-  name: string;
-  cod: "200";
-  message: undefined;
+  weather: [
+    {
+      icon: string;
+      description: string;
+    }
+  ];
+  dt_txt: string;
 };
 
 type OWBadResponse = {

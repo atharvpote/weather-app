@@ -21,7 +21,7 @@ const fetcher: Fetcher<LocationData> = async (key: RequestInfo | URL) => {
   return { latitude: data.latitude, longitude: data.longitude };
 };
 
-export type LocationData = { latitude: number; longitude: number };
+type LocationData = { latitude: number; longitude: number };
 
 type IPWhoIsSuccessfulResponse = {
   success: true;
