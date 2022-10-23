@@ -81,6 +81,13 @@ export default function Highlights({
   );
 }
 
+type ArticleProps = {
+  title: string;
+  highlight: string | number;
+  unit: string;
+  children?: React.ReactNode;
+};
+
 function Article({
   title,
   highlight,
@@ -98,10 +105,3 @@ function Article({
     </article>
   );
 }
-
-type ArticleProps = {
-  title: string;
-  highlight: string | number;
-  unit: string;
-  children?: React.ReactNode;
-};

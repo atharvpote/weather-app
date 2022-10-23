@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrentWeather from "../components/currentWeather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
@@ -10,6 +10,22 @@ import { Coords } from "../utils/useWeather";
 export default function Home(): JSX.Element {
   const [auto, setAuto] = useState<boolean>(true);
   const [coords, setCoords] = useState<Coords>(undefined);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (res) => {
+        setCoords({
+          latitude: res.coords.latitude,
+          longitude: res.coords.longitude,
+        });
+        setAuto(false);
+      },
+      () => {
+        setCoords({ latitude: undefined, longitude: undefined });
+        setAuto(true);
+      }
+    );
+  }, []);
 
   return (
     <>

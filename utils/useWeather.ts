@@ -1,5 +1,12 @@
 import useSWR, { Fetcher } from "swr";
 
+export type Coords =
+  | {
+      latitude: number | undefined;
+      longitude: number | undefined;
+    }
+  | undefined;
+
 export default function useWeather(
   arg: Coords
 ): OWSuccessfulResponse | undefined {
@@ -16,29 +23,6 @@ export default function useWeather(
 
   return data;
 }
-
-const fetcher: Fetcher<OWSuccessfulResponse> = async (
-  key: RequestInfo | URL
-) => {
-  const response = await fetch(key);
-  const data = (await response.json()) as OWSuccessfulResponse | OWBadResponse;
-
-  const code = Number.parseInt(data.cod);
-  if (code < 200 || code >= 300) {
-    throw new Error("Error occurred while fetching IP Address", {
-      cause: data.message,
-    });
-  }
-
-  return data as OWSuccessfulResponse;
-};
-
-export type Coords =
-  | {
-      latitude: number | undefined;
-      longitude: number | undefined;
-    }
-  | undefined;
 
 type OWSuccessfulResponse = {
   weather: [
@@ -67,4 +51,20 @@ type OWSuccessfulResponse = {
 type OWBadResponse = {
   cod: string;
   message: string;
+};
+
+const fetcher: Fetcher<OWSuccessfulResponse> = async (
+  key: RequestInfo | URL
+) => {
+  const response = await fetch(key);
+  const data = (await response.json()) as OWSuccessfulResponse | OWBadResponse;
+
+  const code = Number.parseInt(data.cod);
+  if (code < 200 || code >= 300) {
+    throw new Error("Error occurred while fetching IP Address", {
+      cause: data.message,
+    });
+  }
+
+  return data as OWSuccessfulResponse;
 };

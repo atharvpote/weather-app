@@ -5,6 +5,13 @@ import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import useLocation from "../utils/useLocation";
 import useWeather, { Coords } from "../utils/useWeather";
 
+type Props = {
+  auto: boolean;
+  setAuto: Dispatch<boolean>;
+  coords: Coords;
+  setCoords: Dispatch<Coords>;
+};
+
 export default function CurrentWeather({
   auto,
   setAuto,
@@ -94,10 +101,3 @@ export default function CurrentWeather({
     </section>
   );
 }
-
-type Props = {
-  auto: boolean;
-  setAuto: Dispatch<boolean>;
-  coords: Coords;
-  setCoords: Dispatch<Coords>;
-};

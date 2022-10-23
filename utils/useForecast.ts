@@ -1,5 +1,26 @@
 import useSWR, { Fetcher } from "swr";
 
+export type WeatherData = {
+  main: {
+    temp_min: number;
+    temp_max: number;
+  };
+  weather: [
+    {
+      icon: string;
+      description: string;
+    }
+  ];
+  dt_txt: string;
+};
+
+export type Coords =
+  | {
+      latitude: number | undefined;
+      longitude: number | undefined;
+    }
+  | undefined;
+
 export default function useForecast(
   arg: Coords
 ): OWSuccessfulResponse | undefined {
@@ -17,6 +38,17 @@ export default function useForecast(
   return data;
 }
 
+export type OWSuccessfulResponse = {
+  list: WeatherData[];
+  cod: "200";
+  message: number;
+};
+
+type OWBadResponse = {
+  cod: string;
+  message: string;
+};
+
 const fetcher: Fetcher<OWSuccessfulResponse> = async (
   key: RequestInfo | URL
 ) => {
@@ -31,36 +63,4 @@ const fetcher: Fetcher<OWSuccessfulResponse> = async (
   }
 
   return data as OWSuccessfulResponse;
-};
-
-export type Coords =
-  | {
-      latitude: number | undefined;
-      longitude: number | undefined;
-    }
-  | undefined;
-
-export type OWSuccessfulResponse = {
-  list: WeatherData[];
-  cod: "200";
-  message: number;
-};
-
-export type WeatherData = {
-  main: {
-    temp_min: number;
-    temp_max: number;
-  };
-  weather: [
-    {
-      icon: string;
-      description: string;
-    }
-  ];
-  dt_txt: string;
-};
-
-type OWBadResponse = {
-  cod: string;
-  message: string;
 };

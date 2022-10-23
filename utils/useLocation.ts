@@ -7,6 +7,19 @@ export default function useLocation(): LocationData | undefined {
   return data;
 }
 
+type IPWhoIsSuccessfulResponse = {
+  success: true;
+  latitude: number;
+  longitude: number;
+};
+
+type IPWhoIsBadResponse = {
+  success: false;
+  message: string;
+};
+
+type LocationData = { latitude: number; longitude: number };
+
 const fetcher: Fetcher<LocationData> = async (key: RequestInfo | URL) => {
   const response = await fetch(key);
   const data = (await response.json()) as
@@ -19,17 +32,4 @@ const fetcher: Fetcher<LocationData> = async (key: RequestInfo | URL) => {
     });
 
   return { latitude: data.latitude, longitude: data.longitude };
-};
-
-type LocationData = { latitude: number; longitude: number };
-
-type IPWhoIsSuccessfulResponse = {
-  success: true;
-  latitude: number;
-  longitude: number;
-};
-
-type IPWhoIsBadResponse = {
-  success: false;
-  message: string;
 };
