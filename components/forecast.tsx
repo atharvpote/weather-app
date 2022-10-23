@@ -55,7 +55,21 @@ export default function Forecast({
                 </article>
               );
           })
-        : null}
+        : new Array(5).fill(1).map((_, i) => (
+            <article
+              key={i}
+              className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
+            >
+              <h3 className="text-center opacity-0"></h3>
+              <div className="relative mx-auto my-4 opacity-0">
+                <div className="h-[100px] w-[100px] opacity-0"></div>
+              </div>
+              <div className="flex justify-between opacity-0">
+                <span>C</span>
+                <span className="grey-text opacity-0"></span>
+              </div>
+            </article>
+          ))}
     </div>
   );
 }
