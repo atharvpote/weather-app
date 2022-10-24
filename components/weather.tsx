@@ -12,7 +12,7 @@ type Props = {
   setCoords: Dispatch<Coords>;
 };
 
-export default function CurrentWeather({
+export default function Weather({
   auto,
   setAuto,
   coords,

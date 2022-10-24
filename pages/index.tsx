@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import CurrentWeather from "../components/currentWeather";
+import Weather from "../components/weather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
@@ -42,7 +42,7 @@ export default function Home(): JSX.Element {
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
-            <CurrentWeather
+            <Weather
               auto={auto}
               setAuto={setAuto}
               coords={coords}

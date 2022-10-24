@@ -22,7 +22,8 @@ export default function Forecast({
   );
 
   return (
-    <div className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
+    <section className=" mx-6 flex flex-wrap justify-center gap-6 pt-8 pb-16">
+      <h2 className="hidden">Forecast</h2>
       {forecast
         ? Object.entries(extractForecastData(forecast.list)).map((data, i) => {
             if (i !== 0)
@@ -72,6 +73,6 @@ export default function Forecast({
               </div>
             </article>
           ))}
-    </div>
+    </section>
   );
 }
