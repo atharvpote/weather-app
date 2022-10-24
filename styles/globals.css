@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --blue: #3c47e9;
     --dark: #100e1d;
     --medium-dark: #1e213a;
     --white: #e7e7eb;
@@ -55,6 +56,10 @@
 
   .medium-grey-background {
     background-color: var(--medium-grey);
+  }
+
+  .blue-background {
+    background-color: var(--blue);
   }
 
   .underline {

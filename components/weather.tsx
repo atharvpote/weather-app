@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
 import { format } from "date-fns";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import useLocation from "../utils/useLocation";
 import useWeather, { Coords } from "../utils/useWeather";
+import Search from "./search";
 
 type Props = {
   auto: boolean;
@@ -12,7 +13,7 @@ type Props = {
   setCoords: Dispatch<Coords>;
 };
 
-export default function CurrentWeather({
+export default function Weather({
   auto,
   setAuto,
   coords,
@@ -28,13 +29,17 @@ export default function CurrentWeather({
       : coords
   );
 
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+
   return (
-    <section className="medium-dark-background grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
+    <section className="medium-dark-background relative grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
+      <Search status={showSearch} closer={setShowSearch} />
       <div className="pt-6 pb-24">
         <div className="flex items-center justify-between px-4">
           <button
             className="light-grey-background py-2 px-4 font-medium text-white shadow-md shadow-gray-900"
             aria-label="Search for places."
+            onClick={(): void => setShowSearch(true)}
           >
             Search for places
           </button>
