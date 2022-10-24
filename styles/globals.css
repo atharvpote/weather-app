@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --blue: #3c47e9;
     --dark: #100e1d;
     --medium-dark: #1e213a;
     --white: #e7e7eb;
@@ -57,8 +58,24 @@
     background-color: var(--medium-grey);
   }
 
+  .blue-background {
+    background-color: var(--blue);
+  }
+
   .underline {
     text-decoration: none;
+  }
+
+  .arrow {
+    fill: transparent;
+  }
+
+  .search-result:hover .arrow {
+    fill: var(--medium-grey);
+  }
+
+  .search-result:focus .arrow {
+    fill: var(--medium-grey);
   }
 
   @media (hover: hover) {
