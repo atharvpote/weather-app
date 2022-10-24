@@ -66,6 +66,18 @@
     text-decoration: none;
   }
 
+  .arrow {
+    fill: transparent;
+  }
+
+  .search-result:hover .arrow {
+    fill: var(--medium-grey);
+  }
+
+  .search-result:focus .arrow {
+    fill: var(--medium-grey);
+  }
+
   @media (hover: hover) {
     .underline:hover {
       text-decoration: underline;

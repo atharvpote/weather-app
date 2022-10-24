@@ -19,6 +19,7 @@ export default function Weather({
   coords,
   setCoords,
 }: Props): JSX.Element {
+  const [showSearch, setShowSearch] = useState<boolean>(false);
   const location = useLocation();
   const weather = useWeather(
     auto
@@ -29,11 +30,14 @@ export default function Weather({
       : coords
   );
 
-  const [showSearch, setShowSearch] = useState<boolean>(false);
-
   return (
     <section className="medium-dark-background relative grid min-h-screen shadow-lg md:min-h-full md:max-w-[460px] md:basis-[45rem]">
-      <Search status={showSearch} closer={setShowSearch} />
+      <Search
+        status={showSearch}
+        showSearch={setShowSearch}
+        setAuto={setAuto}
+        setCoords={setCoords}
+      />
       <div className="pt-6 pb-24">
         <div className="flex items-center justify-between px-4">
           <button
