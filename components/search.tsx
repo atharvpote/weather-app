@@ -35,7 +35,10 @@ export default function Search({
       }`}
     >
       <div className="mb-8 flex justify-end">
-        <button onClick={(): void => showSearch(false)}>
+        <button
+          aria-label="close search panel"
+          onClick={(): void => showSearch(false)}
+        >
           <MdClose className="text-2xl" />
         </button>
       </div>
@@ -82,6 +85,7 @@ function showResult(
 
   return cities.map((city, index) => (
     <button
+      aria-label={`get ${city.city}'s weather`}
       type="submit"
       key={index}
       className="search-result flex w-full items-center justify-between border-2 border-transparent py-4 pl-4 pr-2 hover:border-[var(--medium-grey)] focus:border-[var(--medium-grey)]"

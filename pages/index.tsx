@@ -39,6 +39,7 @@ export default function Home(): JSX.Element {
           as="fetch"
           crossOrigin="anonymous"
         />
+        <meta name="description" content="A simple and beautiful weather app" />
       </Head>
       <main className="grid min-h-screen place-items-center bg-slate-900 md:px-8">
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">

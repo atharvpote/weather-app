@@ -12,6 +12,7 @@ export default function UnitSystemToggle({
   return (
     <div className="mx-6 hidden gap-3 md:flex md:justify-end">
       <button
+        aria-label="use metric unit system"
         className={`h-10 w-10 rounded-full text-lg font-semibold shadow-md transition-all ${
           !useImperial ? "white-background dark-text" : "medium-grey-background"
         }`}
@@ -20,6 +21,7 @@ export default function UnitSystemToggle({
         &#176;C
       </button>
       <button
+        aria-label="use imperial unit system"
         className={`h-10 w-10 rounded-full text-lg font-semibold shadow-md transition-all ${
           useImperial ? "white-background dark-text" : "medium-grey-background"
         }`}
