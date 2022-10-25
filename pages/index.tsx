@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Weather from "../components/weather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
@@ -11,22 +11,6 @@ export default function Home(): JSX.Element {
   const [deviceLocationByIp, setDeviceLocationIp] = useState<boolean>(true);
   const [coords, setCoords] = useState<Coords>(undefined);
   const [useImperial, setUseImperial] = useState<boolean>(false);
-
-  useEffect(() => {
-    navigator.permissions
-      .query({ name: "geolocation" })
-      .then((result) => {
-        if (result.state === "granted")
-          navigator.geolocation.getCurrentPosition((res) => {
-            setCoords({
-              latitude: res.coords.latitude,
-              longitude: res.coords.longitude,
-            });
-            setDeviceLocationIp(false);
-          });
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   return (
     <>
