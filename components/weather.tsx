@@ -8,16 +8,16 @@ import Search from "./search";
 import toFahrenheit from "../utils/toFahrenheit";
 
 type Props = {
-  deviceLocation: boolean;
-  setDeviceLocation: Dispatch<boolean>;
+  deviceLocationByIp: boolean;
+  setDeviceLocationIp: Dispatch<boolean>;
   coords: Coords;
   setCoords: Dispatch<Coords>;
   useImperial: boolean;
 };
 
 export default function Weather({
-  deviceLocation: auto,
-  setDeviceLocation: setAuto,
+  deviceLocationByIp,
+  setDeviceLocationIp,
   coords,
   setCoords,
   useImperial,
@@ -25,7 +25,7 @@ export default function Weather({
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const location = useLocation();
   const weather = useWeather(
-    auto
+    deviceLocationByIp
       ? {
           latitude: location?.latitude,
           longitude: location?.longitude,
@@ -38,7 +38,7 @@ export default function Weather({
       <Search
         status={showSearch}
         showSearch={setShowSearch}
-        setAuto={setAuto}
+        setDeviceLocationIp={setDeviceLocationIp}
         setCoords={setCoords}
       />
       <div className="pt-6 pb-24">
@@ -46,15 +46,16 @@ export default function Weather({
           <button
             className="light-grey-background py-2 px-4 font-medium text-white shadow-md shadow-gray-900"
             aria-label="Search for places."
-            onClick={(): void => {
-              setShowSearch(true);
-              document.body.style.overflow = "hidden";
-            }}
+            onClick={(): void => setShowSearch(true)}
           >
             Search for places
           </button>
           <button
-            className="light-grey-background inline-block rounded-full p-2 shadow-md shadow-gray-900"
+            className={`inline-block rounded-full p-2 shadow-md shadow-gray-900 transition-all ${
+              !deviceLocationByIp
+                ? "white-background medium-grey-text"
+                : "light-grey-background"
+            }`}
             aria-label="Weather report for your location."
             onClick={(): void => {
               navigator.geolocation.getCurrentPosition(
@@ -63,11 +64,11 @@ export default function Weather({
                     latitude: res.coords.latitude,
                     longitude: res.coords.longitude,
                   });
-                  setAuto(false);
+                  setDeviceLocationIp(false);
                 },
                 () => {
                   setCoords({ latitude: undefined, longitude: undefined });
-                  setAuto(true);
+                  setDeviceLocationIp(true);
                 }
               );
             }}

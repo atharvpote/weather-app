@@ -5,17 +5,17 @@ import useLocation from "../utils/useLocation";
 import useWeather, { Coords } from "../utils/useWeather";
 
 export default function Highlights({
-  deviceLocation,
+  deviceLocationByIp,
   coords,
   useImperial,
 }: {
-  deviceLocation: boolean;
+  deviceLocationByIp: boolean;
   coords: Coords;
   useImperial: boolean;
 }): JSX.Element {
   const location = useLocation();
   const weather = useWeather(
-    deviceLocation
+    deviceLocationByIp
       ? {
           latitude: location?.latitude,
           longitude: location?.longitude,

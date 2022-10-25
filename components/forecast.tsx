@@ -6,17 +6,17 @@ import extractForecastData from "../utils/extractForecastData";
 import toFahrenheit from "../utils/toFahrenheit";
 
 export default function Forecast({
-  deviceLocation,
+  deviceLocationByIp,
   coords,
   useImperial,
 }: {
-  deviceLocation: boolean;
+  deviceLocationByIp: boolean;
   coords: Coords;
   useImperial: boolean;
 }): JSX.Element {
   const location = useLocation();
   const forecast = useForecast(
-    deviceLocation
+    deviceLocationByIp
       ? {
           latitude: location?.latitude,
           longitude: location?.longitude,

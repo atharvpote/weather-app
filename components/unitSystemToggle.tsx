@@ -12,7 +12,7 @@ export default function UnitSystemToggle({
   return (
     <div className="mx-6 hidden gap-3 md:flex md:justify-end">
       <button
-        className={`h-10 w-10 rounded-full text-lg font-semibold shadow-md ${
+        className={`h-10 w-10 rounded-full text-lg font-semibold shadow-md transition-all ${
           !useImperial ? "white-background dark-text" : "medium-grey-background"
         }`}
         onClick={(): void => setUseImperial(false)}
@@ -20,7 +20,7 @@ export default function UnitSystemToggle({
         &#176;C
       </button>
       <button
-        className={`h-10 w-10 rounded-full text-lg font-semibold shadow-md ${
+        className={`h-10 w-10 rounded-full text-lg font-semibold shadow-md transition-all ${
           useImperial ? "white-background dark-text" : "medium-grey-background"
         }`}
         onClick={(): void => setUseImperial(true)}

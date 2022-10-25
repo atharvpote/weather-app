@@ -12,14 +12,14 @@ import { City } from "../utils/useCityData";
 type Props = {
   status: boolean;
   showSearch: Dispatch<boolean>;
-  setAuto: Dispatch<boolean>;
+  setDeviceLocationIp: Dispatch<boolean>;
   setCoords: Dispatch<Coords>;
 };
 
 export default function Search({
   status,
   showSearch,
-  setAuto,
+  setDeviceLocationIp,
   setCoords,
 }: Props): JSX.Element {
   const [query, setQuery] = useState<string>("");
@@ -28,17 +28,12 @@ export default function Search({
 
   return (
     <div
-      className={`medium-dark-background absolute top-0 left-0 z-10 h-full w-full bg-black p-4 opacity-100 transition-all ${
+      className={`medium-dark-background fixed top-0 left-0 z-20 min-h-screen w-full bg-black p-4 opacity-100 transition-all md:absolute ${
         status ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div className="mb-8 flex justify-end">
-        <button
-          onClick={(): void => {
-            showSearch(false);
-            document.body.style.overflow = "";
-          }}
-        >
+        <button onClick={(): void => showSearch(false)}>
           <MdClose className="text-2xl" />
         </button>
       </div>
@@ -61,7 +56,7 @@ export default function Search({
       </div>
       <div>
         {cities
-          ? showResult(cities.data, setCoords, setAuto, showSearch)
+          ? showResult(cities.data, setCoords, setDeviceLocationIp, showSearch)
           : null}
       </div>
     </div>
@@ -71,7 +66,7 @@ export default function Search({
 function showResult(
   cities: City[],
   setCoords: Dispatch<Coords>,
-  setAuto: Dispatch<boolean>,
+  setDeviceLocationIp: Dispatch<boolean>,
   showSearch: Dispatch<boolean>
 ): JSX.Element | JSX.Element[] {
   if (!cities.length) return <p className="text-center">No Match</p>;
@@ -86,9 +81,14 @@ function showResult(
           latitude: city.latitude,
           longitude: city.longitude,
         });
-        setAuto(false);
+        setDeviceLocationIp(false);
         showSearch(false);
-        document.body.style.overflow = "";
+
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: window.innerWidth < 768 ? "auto" : "smooth",
+        });
       }}
     >
       <p className="text-left">{city.city.trim()}</p>

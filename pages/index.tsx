@@ -8,7 +8,7 @@ import UnitSystemToggle from "../components/unitSystemToggle";
 import { Coords } from "../utils/useWeather";
 
 export default function Home(): JSX.Element {
-  const [deviceLocation, setDeviceLocation] = useState<boolean>(true);
+  const [deviceLocationByIp, setDeviceLocationIp] = useState<boolean>(true);
   const [coords, setCoords] = useState<Coords>(undefined);
   const [useImperial, setUseImperial] = useState<boolean>(false);
 
@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
               latitude: res.coords.latitude,
               longitude: res.coords.longitude,
             });
-            setDeviceLocation(false);
+            setDeviceLocationIp(false);
           });
       })
       .catch((error) => console.error(error));
@@ -44,8 +44,8 @@ export default function Home(): JSX.Element {
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
             <Weather
-              deviceLocation={deviceLocation}
-              setDeviceLocation={setDeviceLocation}
+              deviceLocationByIp={deviceLocationByIp}
+              setDeviceLocationIp={setDeviceLocationIp}
               coords={coords}
               setCoords={setCoords}
               useImperial={useImperial}
@@ -56,12 +56,12 @@ export default function Home(): JSX.Element {
                 setUseImperial={setUseImperial}
               />
               <Forecast
-                deviceLocation={deviceLocation}
+                deviceLocationByIp={deviceLocationByIp}
                 coords={coords}
                 useImperial={useImperial}
               />
               <Highlights
-                deviceLocation={deviceLocation}
+                deviceLocationByIp={deviceLocationByIp}
                 coords={coords}
                 useImperial={useImperial}
               />

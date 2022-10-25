@@ -26,6 +26,10 @@
     color: var(--grey);
   }
 
+  .medium-grey-text {
+    color: var(--medium-grey);
+  }
+
   .dark-text {
     color: var(--dark);
   }
