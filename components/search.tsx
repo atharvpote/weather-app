@@ -7,6 +7,7 @@ import {
 import useDebounce from "../utils/useDebounce";
 import useCityData from "../utils/useCityData";
 import { Coords } from "../utils/useWeather";
+import { City } from "../utils/useCityData";
 
 type Props = {
   status: boolean;
@@ -37,40 +38,55 @@ export default function Search({
         </button>
       </div>
       <div className="mb-8 flex h-12 gap-4">
-        <div className="flex basis-full items-stretch border-2 border-[var(--grey)]">
-          <div className="flex items-center px-3">
+        <form
+          className="flex basis-full items-stretch border-2 border-[var(--grey)]"
+          onSubmit={(e): void => e.preventDefault()}
+        >
+          <label htmlFor="search" className="flex items-center px-3">
             <MdOutlineSearch className="fill-[var(--grey)] text-2xl opacity-50" />
-          </div>
+          </label>
           <input
             type="text"
+            id="search"
             placeholder="Search location"
             className="w-full bg-transparent placeholder:text-[var(--grey)] placeholder:opacity-50 focus:outline-none"
             onChange={(e): void => setQuery(e.target.value)}
           />
-        </div>
+        </form>
         <button className="blue-background px-5">Search</button>
       </div>
       <div>
         {cities
-          ? cities.data.map((city, index) => (
-              <button
-                key={index}
-                className="search-result flex w-full items-center justify-between border-2 border-transparent py-4 pl-4 pr-2 hover:border-[var(--medium-grey)] focus:border-[var(--medium-grey)]"
-                onClick={(): void => {
-                  setCoords({
-                    latitude: city.latitude,
-                    longitude: city.longitude,
-                  });
-                  setAuto(false);
-                  showSearch(false);
-                }}
-              >
-                <p className="">{city.city}</p>
-                <MdOutlineKeyboardArrowRight className="arrow text-2xl" />
-              </button>
-            ))
+          ? showResult(cities.data, setCoords, setAuto, showSearch)
           : null}
       </div>
     </div>
   );
+}
+
+function showResult(
+  cities: City[],
+  setCoords: Dispatch<Coords>,
+  setAuto: Dispatch<boolean>,
+  showSearch: Dispatch<boolean>
+): JSX.Element | JSX.Element[] {
+  if (!cities.length) return <p className="text-center">No Match</p>;
+
+  return cities.map((city, index) => (
+    <button
+      key={index}
+      className="search-result flex w-full items-center justify-between border-2 border-transparent py-4 pl-4 pr-2 hover:border-[var(--medium-grey)] focus:border-[var(--medium-grey)]"
+      onClick={(): void => {
+        setCoords({
+          latitude: city.latitude,
+          longitude: city.longitude,
+        });
+        setAuto(false);
+        showSearch(false);
+      }}
+    >
+      <p className="">{city.city}</p>
+      <MdOutlineKeyboardArrowRight className="arrow text-2xl" />
+    </button>
+  ));
 }

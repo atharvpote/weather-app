@@ -12,7 +12,7 @@ type CityData = {
   data: City[];
 };
 
-type City = {
+export type City = {
   city: string;
   latitude: number;
   longitude: number;

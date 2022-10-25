@@ -18,7 +18,7 @@ export default async function getCity(
 
   if (!Array.isArray(city) && city) {
     try {
-      const key = `http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=5&offset=0&namePrefix=${city}`;
+      const key = `http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=5&offset=0&namePrefix=${city.trim()}`;
       const request = await fetch(key);
       const response = (await request.json()) as CityData;
 
