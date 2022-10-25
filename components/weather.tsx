@@ -43,7 +43,10 @@ export default function Weather({
           <button
             className="light-grey-background py-2 px-4 font-medium text-white shadow-md shadow-gray-900"
             aria-label="Search for places."
-            onClick={(): void => setShowSearch(true)}
+            onClick={(): void => {
+              setShowSearch(true);
+              document.body.style.overflow = "hidden";
+            }}
           >
             Search for places
           </button>

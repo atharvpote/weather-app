@@ -28,12 +28,17 @@ export default function Search({
 
   return (
     <div
-      className={`medium-dark-background fixed top-0 left-0 z-10 h-full w-full bg-black p-4 opacity-100 transition-all md:absolute ${
+      className={`medium-dark-background absolute top-0 left-0 z-10 h-full w-full bg-black p-4 opacity-100 transition-all ${
         status ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div className="mb-8 flex justify-end">
-        <button onClick={(): void => showSearch(false)}>
+        <button
+          onClick={(): void => {
+            showSearch(false);
+            document.body.style.overflow = "";
+          }}
+        >
           <MdClose className="text-2xl" />
         </button>
       </div>
@@ -83,6 +88,7 @@ function showResult(
         });
         setAuto(false);
         showSearch(false);
+        document.body.style.overflow = "";
       }}
     >
       <p className="text-left">{city.city.trim()}</p>
