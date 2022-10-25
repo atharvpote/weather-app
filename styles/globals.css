@@ -26,6 +26,10 @@
     color: var(--grey);
   }
 
+  .dark-text {
+    color: var(--dark);
+  }
+
   .dark-background {
     background-color: var(--dark);
   }

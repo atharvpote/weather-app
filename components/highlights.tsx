@@ -1,17 +1,21 @@
 import { MdNavigation } from "react-icons/md";
+import toMiles from "../utils/toMiles";
+import toMph from "../utils/toMph";
 import useLocation from "../utils/useLocation";
 import useWeather, { Coords } from "../utils/useWeather";
 
 export default function Highlights({
-  auto,
+  deviceLocation,
   coords,
+  useImperial,
 }: {
-  auto: boolean;
+  deviceLocation: boolean;
   coords: Coords;
+  useImperial: boolean;
 }): JSX.Element {
   const location = useLocation();
   const weather = useWeather(
-    auto
+    deviceLocation
       ? {
           latitude: location?.latitude,
           longitude: location?.longitude,
@@ -25,8 +29,14 @@ export default function Highlights({
       <div className="mb-8 flex flex-wrap justify-center gap-8">
         <Article
           title="Wind status"
-          highlight={weather ? Math.round(weather.wind.speed) : ""}
-          unit="m/s"
+          highlight={
+            weather && useImperial
+              ? Math.round(toMph(weather.wind.speed))
+              : weather
+              ? Math.round(weather.wind.speed)
+              : ""
+          }
+          unit={useImperial ? "mph" : "m/s"}
         >
           <div className="flex items-center justify-center gap-4">
             <span className="transparent-grey-background flex items-center justify-center rounded-full p-[0.3rem]">
@@ -68,8 +78,14 @@ export default function Highlights({
         </Article>
         <Article
           title="Visibility"
-          highlight={weather ? Math.round(weather.visibility / 1000) : ""}
-          unit="km"
+          highlight={
+            weather && useImperial
+              ? Math.round(toMiles(weather.visibility / 1000))
+              : weather
+              ? Math.round(weather.visibility / 1000)
+              : ""
+          }
+          unit={useImperial ? "miles" : "km"}
         />
         <Article
           title="Air Pressure"

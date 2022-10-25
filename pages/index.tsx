@@ -4,12 +4,13 @@ import Weather from "../components/weather";
 import Forecast from "../components/forecast";
 import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
-import Units from "../components/units";
+import UnitSystemToggle from "../components/unitSystemToggle";
 import { Coords } from "../utils/useWeather";
 
 export default function Home(): JSX.Element {
-  const [auto, setAuto] = useState<boolean>(true);
+  const [deviceLocation, setDeviceLocation] = useState<boolean>(true);
   const [coords, setCoords] = useState<Coords>(undefined);
+  const [useImperial, setUseImperial] = useState<boolean>(false);
 
   useEffect(() => {
     navigator.permissions
@@ -21,7 +22,7 @@ export default function Home(): JSX.Element {
               latitude: res.coords.latitude,
               longitude: res.coords.longitude,
             });
-            setAuto(false);
+            setDeviceLocation(false);
           });
       })
       .catch((error) => console.error(error));
@@ -43,15 +44,27 @@ export default function Home(): JSX.Element {
         <div className="w-full max-w-[1440px] shadow-2xl md:my-8 md:flex md:overflow-hidden md:rounded-md">
           <>
             <Weather
-              auto={auto}
-              setAuto={setAuto}
+              deviceLocation={deviceLocation}
+              setDeviceLocation={setDeviceLocation}
               coords={coords}
               setCoords={setCoords}
+              useImperial={useImperial}
             />
             <MoreInfo>
-              <Units />
-              <Forecast auto={auto} coords={coords} />
-              <Highlights auto={auto} coords={coords} />
+              <UnitSystemToggle
+                useImperial={useImperial}
+                setUseImperial={setUseImperial}
+              />
+              <Forecast
+                deviceLocation={deviceLocation}
+                coords={coords}
+                useImperial={useImperial}
+              />
+              <Highlights
+                deviceLocation={deviceLocation}
+                coords={coords}
+                useImperial={useImperial}
+              />
             </MoreInfo>
           </>
         </div>

@@ -5,19 +5,22 @@ import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 import useLocation from "../utils/useLocation";
 import useWeather, { Coords } from "../utils/useWeather";
 import Search from "./search";
+import toFahrenheit from "../utils/toFahrenheit";
 
 type Props = {
-  auto: boolean;
-  setAuto: Dispatch<boolean>;
+  deviceLocation: boolean;
+  setDeviceLocation: Dispatch<boolean>;
   coords: Coords;
   setCoords: Dispatch<Coords>;
+  useImperial: boolean;
 };
 
 export default function Weather({
-  auto,
-  setAuto,
+  deviceLocation: auto,
+  setDeviceLocation: setAuto,
   coords,
   setCoords,
+  useImperial,
 }: Props): JSX.Element {
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const location = useLocation();
@@ -88,10 +91,17 @@ export default function Weather({
           </div>
         </div>
         <div className="text-center">
-          <h1 className="mb-6 text-9xl font-medium">
-            {weather ? Math.round(weather.main.temp) : null}
-            <span className="grey-text text-5xl font-semibold">&#176;C</span>
-          </h1>
+          {weather && useImperial ? (
+            <h1 className="mb-6 text-9xl font-medium">
+              {Math.round(toFahrenheit(weather.main.temp))}
+              <span className="grey-text text-5xl font-semibold">&#176;F</span>
+            </h1>
+          ) : weather ? (
+            <h1 className="mb-6 text-9xl font-medium">
+              {Math.round(weather.main.temp)}
+              <span className="grey-text text-5xl font-semibold">&#176;C</span>
+            </h1>
+          ) : null}
           <div className="grey-text">
             <h2 className=" mb-10 text-4xl font-semibold">
               {weather ? weather.weather[0].main : null}

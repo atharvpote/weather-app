@@ -3,17 +3,20 @@ import { format } from "date-fns";
 import useLocation from "../utils/useLocation";
 import useForecast, { Coords } from "../utils/useForecast";
 import extractForecastData from "../utils/extractForecastData";
+import toFahrenheit from "../utils/toFahrenheit";
 
 export default function Forecast({
-  auto,
+  deviceLocation,
   coords,
+  useImperial,
 }: {
-  auto: boolean;
+  deviceLocation: boolean;
   coords: Coords;
+  useImperial: boolean;
 }): JSX.Element {
   const location = useLocation();
   const forecast = useForecast(
-    auto
+    deviceLocation
       ? {
           latitude: location?.latitude,
           longitude: location?.longitude,
@@ -48,12 +51,31 @@ export default function Forecast({
                     }
                   </div>
                   <div className="flex justify-between">
-                    <span>
-                      {data[1].max ? Math.round(data[1].max) : null}&#176;C
-                    </span>
-                    <span className="grey-text">
-                      {data[1].min ? Math.round(data[1].min) : null}&#176;C
-                    </span>
+                    {useImperial ? (
+                      <>
+                        <span>
+                          {data[1].max
+                            ? Math.round(toFahrenheit(data[1].max))
+                            : null}
+                          &#176;F
+                        </span>
+                        <span className="grey-text">
+                          {data[1].min
+                            ? Math.round(toFahrenheit(data[1].min))
+                            : null}
+                          &#176;F
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          {data[1].max ? Math.round(data[1].max) : null}&#176;C
+                        </span>
+                        <span className="grey-text">
+                          {data[1].min ? Math.round(data[1].min) : null}&#176;C
+                        </span>
+                      </>
+                    )}
                   </div>
                 </article>
               );
@@ -68,7 +90,7 @@ export default function Forecast({
                 <div className="h-[100px] w-[100px] opacity-0"></div>
               </div>
               <div className="flex justify-between opacity-0">
-                <span>C</span>
+                <span></span>
                 <span className="grey-text opacity-0"></span>
               </div>
             </article>
