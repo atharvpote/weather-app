@@ -53,7 +53,6 @@ export default function Search({
             onChange={(e): void => setQuery(e.target.value)}
           />
         </form>
-        <button className="blue-background px-5">Search</button>
       </div>
       <div>
         {cities
