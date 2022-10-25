@@ -1,4 +1,4 @@
-import { Dispatch, useState, useRef } from "react";
+import { Dispatch, useState, useRef, MutableRefObject } from "react";
 import {
   MdClose,
   MdOutlineSearch,
@@ -56,7 +56,7 @@ export default function Search({
       </div>
       <div>
         {cities
-          ? showResult(cities.data, setCoords, setAuto, showSearch)
+          ? showResult(cities.data, setCoords, setAuto, showSearch, search)
           : null}
       </div>
     </div>
@@ -67,7 +67,8 @@ function showResult(
   cities: City[],
   setCoords: Dispatch<Coords>,
   setAuto: Dispatch<boolean>,
-  showSearch: Dispatch<boolean>
+  showSearch: Dispatch<boolean>,
+  search: MutableRefObject<HTMLInputElement | null>
 ): JSX.Element | JSX.Element[] {
   if (!cities.length) return <p className="text-center">No Match</p>;
 
@@ -83,6 +84,7 @@ function showResult(
         });
         setAuto(false);
         showSearch(false);
+        search.current?.blur();
       }}
     >
       <p className="">{city.city}</p>
