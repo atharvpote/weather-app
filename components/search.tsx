@@ -85,7 +85,7 @@ function showResult(
         showSearch(false);
       }}
     >
-      <p className="">{city.city}</p>
+      <p className="text-left">{city.city.trim()}</p>
       <MdOutlineKeyboardArrowRight className="arrow text-2xl" />
     </button>
   ));
