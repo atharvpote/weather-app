@@ -1,4 +1,4 @@
-import { Dispatch, useState, useRef } from "react";
+import { Dispatch, useState, useRef, MutableRefObject } from "react";
 import {
   MdClose,
   MdOutlineSearch,
@@ -41,18 +41,22 @@ export default function Search({
         </button>
       </div>
       <div className="mb-8 flex h-12 gap-4">
-        <div className="flex basis-full items-stretch border-2 border-[var(--grey)]">
-          <div className="flex items-center px-3">
+        <form
+          className="flex basis-full items-stretch border-2 border-[var(--grey)]"
+          onSubmit={(e): void => e.preventDefault()}
+        >
+          <label htmlFor="search" className="flex items-center px-3">
             <MdOutlineSearch className="fill-[var(--grey)] text-2xl opacity-50" />
-          </div>
+          </label>
           <input
             type="text"
+            id="search"
             placeholder="Search location"
             className="w-full bg-transparent placeholder:text-[var(--grey)] placeholder:opacity-50 focus:outline-none"
             onChange={(e): void => setQuery(e.target.value)}
             ref={search}
           />
-        </div>
+        </form>
       </div>
       <div>
         {cities
@@ -73,6 +77,7 @@ function showResult(
 
   return cities.map((city, index) => (
     <button
+      type="submit"
       key={index}
       className="search-result flex w-full items-center justify-between border-2 border-transparent py-4 pl-4 pr-2 hover:border-[var(--medium-grey)] focus:border-[var(--medium-grey)]"
       onClick={(): void => {
