@@ -28,7 +28,7 @@ export default function Search({
 
   return (
     <div
-      className={`medium-dark-background absolute top-0 left-0 z-10 h-full w-full bg-black p-4 opacity-100 transition-all ${
+      className={`medium-dark-background fixed top-0 left-0 z-10 h-full w-full bg-black p-4 opacity-100 transition-all md:absolute ${
         status ? "translate-x-0" : "-translate-x-full"
       }`}
     >
