@@ -14,6 +14,7 @@ type Props = {
   showSearch: Dispatch<boolean>;
   setDeviceLocationIp: Dispatch<boolean>;
   setCoords: Dispatch<Coords>;
+  setSearchMode: Dispatch<boolean>;
 };
 
 export default function Search({
@@ -21,6 +22,7 @@ export default function Search({
   showSearch,
   setDeviceLocationIp,
   setCoords,
+  setSearchMode,
 }: Props): JSX.Element {
   const [query, setQuery] = useState<string>("");
   const debounceQuery = useDebounce(query, 500);
@@ -56,7 +58,13 @@ export default function Search({
       </div>
       <div>
         {cities
-          ? showResult(cities.data, setCoords, setDeviceLocationIp, showSearch)
+          ? showResult(
+              cities.data,
+              setCoords,
+              setDeviceLocationIp,
+              showSearch,
+              setSearchMode
+            )
           : null}
       </div>
     </div>
@@ -67,7 +75,8 @@ function showResult(
   cities: City[],
   setCoords: Dispatch<Coords>,
   setDeviceLocationIp: Dispatch<boolean>,
-  showSearch: Dispatch<boolean>
+  showSearch: Dispatch<boolean>,
+  setSearchMode: Dispatch<boolean>
 ): JSX.Element | JSX.Element[] {
   if (!cities.length) return <p className="text-center">No Match</p>;
 
@@ -83,6 +92,7 @@ function showResult(
         });
         setDeviceLocationIp(false);
         showSearch(false);
+        setSearchMode(true);
 
         window.scrollTo({
           top: 0,

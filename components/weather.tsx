@@ -22,6 +22,7 @@ export default function Weather({
   setCoords,
   useImperial,
 }: Props): JSX.Element {
+  const [searchMode, setSearchMode] = useState<boolean>(false);
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const location = useLocation();
   const weather = useWeather(
@@ -40,6 +41,7 @@ export default function Weather({
         showSearch={setShowSearch}
         setDeviceLocationIp={setDeviceLocationIp}
         setCoords={setCoords}
+        setSearchMode={setSearchMode}
       />
       <div className="pt-6 pb-24">
         <div className="flex items-center justify-between px-4">
@@ -52,7 +54,7 @@ export default function Weather({
           </button>
           <button
             className={`inline-block rounded-full p-2 shadow-md shadow-gray-900 transition-all ${
-              !deviceLocationByIp
+              !deviceLocationByIp && !searchMode
                 ? "white-background medium-grey-text"
                 : "light-grey-background"
             }`}
@@ -65,6 +67,7 @@ export default function Weather({
                     longitude: res.coords.longitude,
                   });
                   setDeviceLocationIp(false);
+                  setSearchMode(false);
                 },
                 () => {
                   setCoords({ latitude: undefined, longitude: undefined });
