@@ -1,4 +1,4 @@
-import { Dispatch, useState, useRef, MutableRefObject } from "react";
+import { Dispatch, useState, useRef } from "react";
 import {
   MdClose,
   MdOutlineSearch,
@@ -41,26 +41,22 @@ export default function Search({
         </button>
       </div>
       <div className="mb-8 flex h-12 gap-4">
-        <form
-          className="flex basis-full items-stretch border-2 border-[var(--grey)]"
-          onSubmit={(e): void => e.preventDefault()}
-        >
-          <label htmlFor="search" className="flex items-center px-3">
+        <div className="flex basis-full items-stretch border-2 border-[var(--grey)]">
+          <div className="flex items-center px-3">
             <MdOutlineSearch className="fill-[var(--grey)] text-2xl opacity-50" />
-          </label>
+          </div>
           <input
             type="text"
-            id="search"
             placeholder="Search location"
             className="w-full bg-transparent placeholder:text-[var(--grey)] placeholder:opacity-50 focus:outline-none"
             onChange={(e): void => setQuery(e.target.value)}
             ref={search}
           />
-        </form>
+        </div>
       </div>
       <div>
         {cities
-          ? showResult(cities.data, setCoords, setAuto, showSearch, search)
+          ? showResult(cities.data, setCoords, setAuto, showSearch)
           : null}
       </div>
     </div>
@@ -71,8 +67,7 @@ function showResult(
   cities: City[],
   setCoords: Dispatch<Coords>,
   setAuto: Dispatch<boolean>,
-  showSearch: Dispatch<boolean>,
-  search: MutableRefObject<HTMLInputElement | null>
+  showSearch: Dispatch<boolean>
 ): JSX.Element | JSX.Element[] {
   if (!cities.length) return <p className="text-center">No Match</p>;
 
@@ -88,7 +83,6 @@ function showResult(
         });
         setAuto(false);
         showSearch(false);
-        search.current?.blur();
       }}
     >
       <p className="">{city.city}</p>
