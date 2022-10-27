@@ -36,15 +36,7 @@ export default function Home(): JSX.Element {
               } ${weather.name}`
             : `Weather App`}
         </title>
-        {weather ? (
-          <link
-            rel="icon"
-            href={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}
-            type="image/png"
-          />
-        ) : (
-          <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        )}
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <link
           rel="preload"
           href="https://ipwho.is/"
