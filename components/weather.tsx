@@ -112,14 +112,19 @@ export default function Weather({
             </h2>
             <div className="text-lg">
               <div className="mb-8 flex items-center justify-center gap-4 font-medium">
-                <span>Today</span>
-                <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
-                <span>{weather ? format(new Date(), "EEE. d MMM") : null}</span>
+                {weather ? (
+                  <>
+                    <span>Today</span>
+                    <span className="grey-background inline-block h-1 w-1 rounded-full"></span>
+                    <span>{format(new Date(), "EEE. d MMM")}</span>
+                  </>
+                ) : null}
               </div>
-              <h2 className="flex items-center justify-center gap-1 font-semibold">
-                <MdLocationOn className="text-2xl" />{" "}
-                {weather ? weather.name : null}
-              </h2>
+              {weather ? (
+                <h2 className="flex items-center justify-center gap-1 font-semibold">
+                  <MdLocationOn className="text-2xl" /> {weather.name}
+                </h2>
+              ) : null}
             </div>
           </div>
         </div>
