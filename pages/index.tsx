@@ -6,17 +6,45 @@ import Highlights from "../components/highlights";
 import MoreInfo from "../components/moreInfo";
 import UnitSystemToggle from "../components/unitSystemToggle";
 import { Coords } from "../utils/useWeather";
+import useLocation from "../utils/useLocation";
+import useWeather from "../utils/useWeather";
+import toFahrenheit from "../utils/toFahrenheit";
 
 export default function Home(): JSX.Element {
   const [deviceLocationByIp, setDeviceLocationIp] = useState<boolean>(true);
   const [coords, setCoords] = useState<Coords>(undefined);
   const [useImperial, setUseImperial] = useState<boolean>(false);
+  const location = useLocation();
+  const weather = useWeather(
+    deviceLocationByIp
+      ? {
+          latitude: location?.latitude,
+          longitude: location?.longitude,
+        }
+      : coords
+  );
 
   return (
     <>
       <Head>
-        <title>Weather App</title>
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <title>
+          {weather
+            ? `${
+                useImperial
+                  ? `${Math.round(toFahrenheit(weather.main.temp))}F`
+                  : `${Math.round(weather.main.temp)}C`
+              } ${weather.name}`
+            : `Weather App`}
+        </title>
+        <link
+          rel="shortcut icon"
+          href={
+            weather
+              ? `http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`
+              : `favicon.ico`
+          }
+          type="image/x-icon"
+        />
         <link
           rel="preload"
           href="https://ipwho.is/"
