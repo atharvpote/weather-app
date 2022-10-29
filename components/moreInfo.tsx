@@ -15,6 +15,8 @@ export default function MoreInfo({ children }: Props): JSX.Element {
         created by{" "}
         <a
           href="https://github.com/atharvpote/"
+          target="_blank"
+          rel="noreferrer"
           className="font-bold underline"
         >
           @atharvpote
