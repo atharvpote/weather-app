@@ -1,34 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Weather App
 
-## Getting Started
+Solution for a challenge from [Devchallenges.io](http://devchallenges.io).
 
-First, run the development server:
+[Demo](https://getweather-app.vercel.app/) |
+[Solution](https://github.com/atharvpote/weather-app) |
+[Challenge](https://devchallenges.io/challenges/mM1UIenRhK808W8qmLWv)
+
+## Table of Contents
+
+- [Overview](#overview)
+  - [Built With](#built-with)
+- [Features](#features)
+- [How to use](#how-to-use)
+- [Acknowledgements](#acknowledgements)
+- [Contact](#contact)
+
+## Overview
+
+![screenshot](./screeshot/wather-app.png)
+
+This is a fast and simple web app that tells you about the weather details of your city. It can detect you location or you can also search of other locations get weather details. The applications is built with [Next JS](https://nextjs.org/) for the best performance and uses [OpenWeatherMap](https://openweathermap.org/) to get the most up yo date weather information. To get this data it uses [SWR](https://swr.vercel.app/) data fetching library to make the app as performant as possible. You can try the app on [here](https://getweather-app.vercel.app/)
+
+### Built With
+
+- [Next JS](https://nextjs.org/)
+- [Tailwind](https://tailwindcss.com/)
+- [SWR](https://swr.vercel.app/)
+
+## Features
+
+- Get the weather information about your current location
+- Search for weather information of any other city
+- Get the weather information about next 5 days
+- Get the date and location of the weather information
+- Different thumbnails for different weathers
+- Get the min and max degree temperature of next 5 days
+- Get the wind status and wind direction
+- Get the humidity information
+- Get visibility information
+- Get the air pressure information
+- Get the precise information for your current location
+- Temperature information in both Celsius and Fahrenheit
+
+## How To Use
+
+To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/) installed on your computer. From your command line:
 
 ```bash
-npm run dev
-# or
-yarn dev
+# Clone this repository
+$ git clone https://github.com/atharvpote/weather-app.git
+
+# Install dependencies
+$ yarn install
+
+# Build the app
+$ yarn build
+
+# Run the app
+$ yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Acknowledgements
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- [Next JS](https://nextjs.org/)
+- [Tailwind](https://tailwindcss.com/)
+- [SWR](https://swr.vercel.app/)
+- [OpenWeatherMap API](https://openweathermap.org/api)
+- [Geo DB Cities](http://geodb-cities-api.wirefreethought.com/)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Contact
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- GitHub [@atharvpote](https://github.com/atharvpote)
