@@ -55,8 +55,7 @@ function mergeData(list: WeatherData[]): Extracted {
 
     if (!iconCount[icon])
       iconCount[icon] = { count: 1, description: description };
-
-    iconCount[icon].count = iconCount[icon].count + 1;
+    else iconCount[icon].count = iconCount[icon].count + 1;
   }
 
   const sorted = Object.entries(iconCount).sort((a, b) => {
