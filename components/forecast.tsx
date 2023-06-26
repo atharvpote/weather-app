@@ -85,7 +85,6 @@ export default function Forecast({
               key={i}
               className="medium-dark-background basis-32 px-4 py-4 font-medium shadow-lg"
             >
-              <h3 className="text-center opacity-0"></h3>
               <div className="relative mx-auto my-4 opacity-0">
                 <div className="h-[100px] w-[100px] opacity-0"></div>
               </div>

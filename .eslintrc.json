@@ -1,5 +1,10 @@
 {
-  "extends": ["next/core-web-vitals", "eslint:recommended", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
