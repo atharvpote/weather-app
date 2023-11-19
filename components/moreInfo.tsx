@@ -1,4 +1,4 @@
-import { GoMarkGithub } from "react-icons/go";
+import { FaGithub } from "react-icons/fa6";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export default function MoreInfo({ children }: Props): JSX.Element {
         >
           @atharvpote
         </a>{" "}
-        - <GoMarkGithub className="text-sm" /> GitHub
+        - <FaGithub className="text-sm" /> GitHub
       </p>
     </div>
   );
